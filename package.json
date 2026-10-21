@@ -63,7 +63,8 @@
       "target": [
         "dmg",
         "zip"
-      ]
+      ],
+      "artifactName": "Pokemon-Chess-3D-${version}-mac.${ext}"
     }
   }
 }

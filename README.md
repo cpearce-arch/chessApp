@@ -1,49 +1,43 @@
 # Pokémon Chess 3D
 
-Local **3D chess** with stylized **Pokémon-themed** pieces (original low-poly models, not official Nintendo assets). Built with React, React Three Fiber, `chess.js`, and **Electron** for a Mac desktop app.
+Local **3D chess** with stylized **Pokémon-themed** pieces (original low-poly models, not official Nintendo assets).
 
-## Requirements (Mac)
+---
 
-- [Node.js](https://nodejs.org/) 20+ (22 recommended)
-- npm 10+
+## Play on Mac — **no Node or npm**
 
-All runtime libraries (React, Three.js, chess.js, label fonts, etc.) are **npm dependencies** bundled by Vite into `dist/` — the packaged Mac app does not fetch scripts or fonts from a CDN. `npm install` runs a check that every declared dependency is present in `node_modules`.
+You do **not** need to install Node, Homebrew, or run `npm`.
 
-## Quick start — browser (fastest)
+### Option 1: Double-click (in this repo)
 
-```bash
-npm install
-npm run dev
-```
+1. Open the project folder in **Finder**.
+2. Double-click **`Run Pokemon Chess 3D.command`**.
+3. First launch only: click **Download** (~150MB, uses built-in macOS tools).
+4. The game opens from **`apps/mac/Pokemon Chess 3D.app`** on every later launch.
 
-Open the URL Vite prints (usually `http://localhost:5173`). Click a piece, then a highlighted square to move. Drag with the mouse to orbit the board.
+If macOS warns about an unidentified developer: **Right-click → Open**.
 
-## Mac desktop app (Electron)
+More detail: [docs/PLAY_ON_MAC.md](docs/PLAY_ON_MAC.md)
 
-Development (hot reload + Electron window):
+### Option 2: Download the Mac app
 
-```bash
-npm run dev:app
-```
+1. [GitHub Releases → **latest-mac**](https://github.com/cpearce-arch/chessApp/releases/tag/latest-mac)
+2. Download the **`.dmg`** or **`.zip`**, install, and open **Pokemon Chess 3D**.
 
-Production build (creates `.dmg` / `.zip` under `release/`):
+> **Note:** The Mac app is built on GitHub’s macOS runners. If no release exists yet, open the [Release Mac app](https://github.com/cpearce-arch/chessApp/actions/workflows/release-mac.yml) workflow → **Run workflow**, wait for it to finish, then use Option 1 or 2.
 
-```bash
-npm run pack:mac
-```
-
-Open the generated app from `release/` or run the `.app` bundle directly.
+---
 
 ## Controls
 
 | Action | Input |
 |--------|--------|
 | Orbit camera | Click + drag |
-| Zoom | Scroll / trackpad pinch |
-| Select / move | Click square |
+| Zoom | Trackpad pinch / scroll |
+| Select / move | Click piece, then highlighted square |
 | New game | **New game** in the header |
 
-When a Pichu (pawn) reaches the last rank, pick an evolution (promotion).
+Pawn promotion: choose an evolution when Pichu reaches the last rank.
 
 ## Piece roster
 
@@ -56,26 +50,32 @@ When a Pichu (pawn) reaches the last rank, pick an evolution (promotion).
 | Queen | Mewtwo |
 | King | Arceus |
 
-## Scripts
+---
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Vite dev server only |
-| `npm run dev:app` | Vite + Electron (Mac/local desktop) |
-| `npm run build` | Typecheck + production web build |
-| `npm run test` | Unit tests |
-| `npm run pack:mac` | Build + package for macOS |
+## Developers (change the source)
 
-## Project layout
+Requires [Node.js](https://nodejs.org/) 20+ and npm.
 
-```
-electron/          Electron main process
-src/components/    3D board and Pokémon piece meshes
-src/hooks/         Game UI state
-src/lib/           chess.js wrapper
-src/pokemon/       Species names and colors per role
+```bash
+npm install
+npm run dev:app      # Electron + hot reload
+npm run dev          # browser at http://localhost:5173
+npm run test
+npm run build
+npm run pack:mac     # local .dmg / .zip in release/
 ```
 
-## License
+Runtime libraries are bundled into `dist/` (no CDN fonts at play time). `npm install` verifies all declared packages are present.
 
-Chess rules via [chess.js](https://github.com/jhlywa/chess.js). Pokémon names and trademarks belong to Nintendo/Creatures/Game Freak; this project uses **original 3D shapes** and names for fan-style local play only.
+### Project layout
+
+```
+Run Pokemon Chess 3D.command   ← players double-click this
+apps/mac/                      ← installed .app (after first launch)
+scripts/fetch-mac-app.sh       ← download helper (curl + python3)
+electron/                      ← desktop shell
+src/                           ← React + Three.js game
+.github/workflows/release-mac.yml
+```
+
+Pokémon names/trademarks belong to Nintendo/Creatures/Game Freak; this project uses original 3D shapes for local fan-style play.
