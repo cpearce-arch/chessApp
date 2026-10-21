@@ -1,0 +1,155 @@
+:root {
+  color: #ecf0f1;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: #0f1419;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'hud hud'
+    'viewport legend';
+  min-height: 100vh;
+}
+
+.hud {
+  grid-area: hud;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid #243447;
+  background: #121a24;
+}
+
+.hud h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 650;
+}
+
+.subtitle {
+  margin: 0.15rem 0 0;
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pill {
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: #1e293b;
+  font-size: 0.85rem;
+}
+
+.pill.warn {
+  background: #7f1d1d;
+}
+
+button {
+  border: none;
+  border-radius: 8px;
+  padding: 0.45rem 0.85rem;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+.viewport {
+  grid-area: viewport;
+  min-height: 0;
+}
+
+.legend {
+  grid-area: legend;
+  padding: 1rem;
+  border-left: 1px solid #243447;
+  background: #121a24;
+  font-size: 0.9rem;
+}
+
+.legend h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.legend ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  line-height: 1.6;
+}
+
+.note {
+  margin-top: 1rem;
+  color: #94a3b8;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: grid;
+  place-items: center;
+  z-index: 20;
+}
+
+.modal {
+  background: #1e293b;
+  padding: 1.25rem;
+  border-radius: 12px;
+  min-width: 320px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+}
+
+.modal h3 {
+  margin: 0 0 0.35rem;
+}
+
+.promo-grid {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 900px) {
+  .app {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'hud'
+      'viewport'
+      'legend';
+  }
+
+  .legend {
+    border-left: none;
+    border-top: 1px solid #243447;
+  }
+}

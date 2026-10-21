@@ -1,0 +1,99 @@
+import { useCallback, useMemo, useState } from 'react'
+import type { Square } from 'chess.js'
+import { ChessGame } from '../lib/chessGame'
+
+export function useChessGame() {
+  const [engine] = useState(() => new ChessGame())
+  const [tick, setTick] = useState(0)
+  const [selected, setSelected] = useState<Square | null>(null)
+  const [pendingPromotion, setPendingPromotion] = useState<{
+    from: Square
+    to: Square
+  } | null>(null)
+
+  const snapshot = useMemo(() => engine.snapshot(), [engine, tick])
+  const board = useMemo(() => engine.board(), [engine, tick])
+
+  const legalTargets = useMemo(() => {
+    if (!selected) return [] as Square[]
+    return engine.legalMovesFrom(selected)
+  }, [engine, selected, tick])
+
+  const refresh = useCallback(() => setTick((t) => t + 1), [])
+
+  const resetGame = useCallback(() => {
+    engine.reset()
+    setSelected(null)
+    setPendingPromotion(null)
+    refresh()
+  }, [engine, refresh])
+
+  const completeMove = useCallback(
+    (from: Square, to: Square, promotion?: 'q' | 'r' | 'b' | 'n') => {
+      const moved = engine.move(from, to, promotion)
+      if (moved) {
+        setSelected(null)
+        setPendingPromotion(null)
+        refresh()
+      }
+      return moved
+    },
+    [engine, refresh],
+  )
+
+  const onSquareClick = useCallback(
+    (square: Square) => {
+      if (snapshot.isGameOver) return
+
+      const piece = board
+        .flat()
+        .find((p) => p?.square === square)
+
+      if (selected) {
+        if (legalTargets.includes(square)) {
+          const movingPiece = board
+            .flat()
+            .find((p) => p?.square === selected)
+          const isPromotion =
+            movingPiece?.type === 'p' &&
+            ((movingPiece.color === 'w' && square[1] === '8') ||
+              (movingPiece.color === 'b' && square[1] === '1'))
+
+          if (isPromotion) {
+            setPendingPromotion({ from: selected, to: square })
+            return
+          }
+          completeMove(selected, square)
+          return
+        }
+      }
+
+      if (piece && piece.color === snapshot.turn) {
+        setSelected(square)
+        return
+      }
+
+      setSelected(null)
+    },
+    [board, completeMove, legalTargets, selected, snapshot.isGameOver, snapshot.turn],
+  )
+
+  const promote = useCallback(
+    (choice: 'q' | 'r' | 'b' | 'n') => {
+      if (!pendingPromotion) return
+      completeMove(pendingPromotion.from, pendingPromotion.to, choice)
+    },
+    [completeMove, pendingPromotion],
+  )
+
+  return {
+    board,
+    snapshot,
+    selected,
+    legalTargets,
+    pendingPromotion,
+    onSquareClick,
+    promote,
+    resetGame,
+  }
+}
