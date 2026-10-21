@@ -19,7 +19,7 @@ export default defineConfig({
       '@react-three/drei',
       'chess.js',
       'troika-three-text',
-      '@fontsource/inter/files/inter-latin-400-normal.woff2',
+      '@fontsource/inter/files/inter-latin-400-normal.woff',
     ],
   },
   build: {

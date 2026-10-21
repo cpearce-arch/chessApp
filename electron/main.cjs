@@ -3,6 +3,11 @@ const path = require('path')
 
 const isDev = Boolean(process.env.VITE_DEV_SERVER_URL)
 
+function distIndexPath() {
+  // Packaged: app.asar/dist/index.html — __dirname is app.asar/electron
+  return path.join(__dirname, '../dist/index.html')
+}
+
 function createWindow() {
   const win = new BrowserWindow({
     width: 1280,
@@ -14,7 +19,18 @@ function createWindow() {
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
+      sandbox: false,
     },
+  })
+
+  win.webContents.on('did-fail-load', (_event, code, description, url) => {
+    console.error('did-fail-load', code, description, url)
+  })
+
+  win.webContents.on('console-message', (_event, level, message, line, sourceId) => {
+    if (level >= 2) {
+      console.error(`[renderer:${level}] ${message} (${sourceId}:${line})`)
+    }
   })
 
   win.webContents.setWindowOpenHandler(() => ({ action: 'deny' }))
@@ -28,7 +44,7 @@ function createWindow() {
     win.loadURL(process.env.VITE_DEV_SERVER_URL)
     win.webContents.openDevTools({ mode: 'detach' })
   } else {
-    win.loadFile(path.join(__dirname, '../dist/index.html'))
+    win.loadFile(distIndexPath())
   }
 }
 

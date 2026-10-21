@@ -10,10 +10,13 @@ if (!rootEl) {
   throw new Error('Root element #root not found')
 }
 
-void preloadRuntimeAssets().then(() => {
-  createRoot(rootEl).render(
-    <StrictMode>
-      <App />
-    </StrictMode>,
-  )
-})
+const root = createRoot(rootEl)
+
+// Mount UI immediately so Electron never shows a blank window if font preload stalls.
+root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+
+void preloadRuntimeAssets()
