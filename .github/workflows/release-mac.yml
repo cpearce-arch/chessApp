@@ -1,5 +1,8 @@
 name: Release Mac app
 
+# macOS GitHub-hosted runners often queue or fail with capacity errors.
+# We build the Mac .app/.zip on Linux (electron-builder cross-packaging — verified in CI).
+
 on:
   push:
     tags:
@@ -9,9 +12,14 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: release-mac-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build-macos:
-    runs-on: macos-latest
+  build-mac-pack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,33 +36,83 @@ jobs:
           npm run test
           npm run build
 
-      - name: Package Electron app
-        run: npx electron-builder --mac --publish never
+      - name: Package Mac app (zip, unsigned)
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+        run: npx electron-builder --mac zip --publish never
+
+      - name: List release output
+        run: ls -la release release/mac || true
 
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
           name: pokemon-chess-3d-mac
           path: |
-            release/*.dmg
             release/*.zip
+            release/mac/**
           if-no-files-found: error
 
-      - name: Publish GitHub Release
+      - name: Publish GitHub Release (tag)
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            release/*.dmg
-            release/*.zip
+          files: release/*.zip
           generate_release_notes: true
 
-      - name: Publish rolling “latest” release (manual / main builds)
-        if: github.event_name == 'workflow_dispatch'
+      - name: Publish rolling latest-mac release
+        if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          set -euo pipefail
           TAG=latest-mac
           VERSION=$(node -p "require('./package.json').version")
-          gh release view "$TAG" 2>/dev/null || gh release create "$TAG" --title "Mac app (latest build)" --notes "Automated macOS build v${VERSION}. Download the .dmg — no Node or npm required."
-          gh release upload "$TAG" release/*.dmg release/*.zip --clobber
+          NOTES="Mac build v${VERSION} (unsigned). Download the .zip, unzip, and open **Pokemon Chess 3D.app**. No Node/npm required."
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release edit "$TAG" --notes "$NOTES"
+          else
+            gh release create "$TAG" --title "Mac app (latest build)" --notes "$NOTES"
+          fi
+          shopt -s nullglob
+          assets=(release/*.zip)
+          if ((${#assets[@]} == 0)); then
+            echo "No zip artifacts found under release/" >&2
+            exit 1
+          fi
+          gh release upload "$TAG" "${assets[@]}" --clobber
+
+  # Optional native DMG when macOS runners are available (does not block the zip release).
+  build-macos-dmg:
+    runs-on: macos-14
+    timeout-minutes: 45
+    needs: build-mac-pack
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install and package DMG
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+        run: |
+          npm ci
+          npm run build
+          npx electron-builder --mac dmg --publish never
+
+      - name: Attach DMG to latest-mac (if built)
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          shopt -s nullglob
+          dmgs=(release/*.dmg)
+          if ((${#dmgs[@]})); then
+            gh release upload latest-mac "${dmgs[@]}" --clobber
+          fi

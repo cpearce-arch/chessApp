@@ -17,9 +17,13 @@ If macOS blocks the game app: **Right-click → Open** on `Pokemon Chess 3D.app`
 ## Alternative: download the installer
 
 1. Open [GitHub Releases](https://github.com/cpearce-arch/chessApp/releases).
-2. Download **`latest-mac`** → `.dmg` or `.zip`.
-3. Open the DMG and drag **Pokemon Chess 3D** to **Applications**.
-4. Launch from Applications.
+2. Open the **`latest-mac`** release and download the **`.zip`** (always built on Linux CI).
+3. Double-click the zip to extract **Pokemon Chess 3D.app**, then drag it to **Applications** (or run from the extracted folder).
+4. If a **`.dmg`** is also attached (optional macOS runner build), you can use that instead.
+
+### If the GitHub workflow fails
+
+Older workflows used `macos-latest` runners, which can fail with *“job was not acquired”* or capacity errors. Pull the latest `main` and re-run **Release Mac app** — it now builds the Mac zip on **ubuntu-latest** first. You only need the `.zip` to play.
 
 ## Controls
 
