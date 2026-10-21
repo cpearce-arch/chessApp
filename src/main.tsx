@@ -1,10 +1,19 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { preloadRuntimeAssets } from './setup/runtimeDependencies'
 import App from './App.tsx'
 import './index.css'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+const rootEl = document.getElementById('root')
+
+if (!rootEl) {
+  throw new Error('Root element #root not found')
+}
+
+void preloadRuntimeAssets().then(() => {
+  createRoot(rootEl).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  )
+})

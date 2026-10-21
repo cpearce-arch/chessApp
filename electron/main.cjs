@@ -17,6 +17,13 @@ function createWindow() {
     },
   })
 
+  win.webContents.setWindowOpenHandler(() => ({ action: 'deny' }))
+  win.webContents.on('will-navigate', (event, url) => {
+    if (isDev && url.startsWith(process.env.VITE_DEV_SERVER_URL)) return
+    if (!isDev && url.startsWith('file://')) return
+    event.preventDefault()
+  })
+
   if (isDev) {
     win.loadURL(process.env.VITE_DEV_SERVER_URL)
     win.webContents.openDevTools({ mode: 'detach' })

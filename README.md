@@ -7,6 +7,8 @@ Local **3D chess** with stylized **Pokémon-themed** pieces (original low-poly m
 - [Node.js](https://nodejs.org/) 20+ (22 recommended)
 - npm 10+
 
+All runtime libraries (React, Three.js, chess.js, label fonts, etc.) are **npm dependencies** bundled by Vite into `dist/` — the packaged Mac app does not fetch scripts or fonts from a CDN. `npm install` runs a check that every declared dependency is present in `node_modules`.
+
 ## Quick start — browser (fastest)
 
 ```bash

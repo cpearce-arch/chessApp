@@ -1,6 +1,7 @@
 import { Text } from '@react-three/drei'
 import type { PokemonRole } from '../pokemon/pieces'
 import { metaForFenPiece } from '../pokemon/pieces'
+import { LABEL_FONT_URL } from '../setup/runtimeDependencies'
 
 type Props = {
   fenChar: string
@@ -114,6 +115,7 @@ export function PokemonPiece({ fenChar, selected }: Props) {
       <RoleShape role={role} accent={meta.accent} body={meta.body} />
       <Text
         position={[0, 1.05, 0]}
+        font={LABEL_FONT_URL}
         fontSize={0.14}
         color="#ffffff"
         anchorX="center"
