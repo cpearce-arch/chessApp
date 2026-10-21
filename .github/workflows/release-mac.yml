@@ -61,7 +61,7 @@ jobs:
           generate_release_notes: true
 
       - name: Publish rolling latest-mac release
-        if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/v')
+        if: github.event_name == 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
