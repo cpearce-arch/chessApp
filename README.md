@@ -15,7 +15,7 @@ You do **not** need to install Node, Homebrew, or run `npm`.
 3. First launch only: click **Download** (~150MB, uses built-in macOS tools).
 4. The game opens from **`apps/mac/Pokemon Chess 3D.app`** on every later launch.
 
-If macOS warns about an unidentified developer: **Right-click → Open**.
+If macOS says it **could not verify** the app or shows **unidentified developer**: the build is **unsigned** (normal for CI). **Right-click `Pokemon Chess 3D.app` → Open → Open** the first time only. Details: [docs/MAC_GATEKEEPER.md](docs/MAC_GATEKEEPER.md).
 
 More detail: [docs/PLAY_ON_MAC.md](docs/PLAY_ON_MAC.md)
 

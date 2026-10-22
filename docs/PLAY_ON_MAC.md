@@ -14,6 +14,12 @@ If macOS blocks the launcher: **Right-click → Open** on `Run Pokemon Chess 3D.
 
 If macOS blocks the game app: **Right-click → Open** on `Pokemon Chess 3D.app`.
 
+### “Apple could not verify… malware”
+
+That message is **Gatekeeper** for **unsigned** apps (expected for our GitHub-built zip). Apple has not checked the publisher; it is not a specific virus detection.
+
+**Do not double-click the first time.** Use **Right-click → Open → Open**, or see [MAC_GATEKEEPER.md](MAC_GATEKEEPER.md).
+
 ## Alternative: download the installer
 
 1. Open [GitHub Releases](https://github.com/cpearce-arch/chessApp/releases).
