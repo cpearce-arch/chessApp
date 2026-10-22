@@ -4,7 +4,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DEST_DIR="$ROOT/apps/mac"
-APP_NAME="Pokemon Chess 3D.app"
+APP_NAME="Fantasy Chess 3D.app"
 REPO="${CHESSAPP_GITHUB_REPO:-cpearce-arch/chessApp}"
 RELEASE_TAG="${CHESSAPP_RELEASE_TAG:-latest-mac}"
 

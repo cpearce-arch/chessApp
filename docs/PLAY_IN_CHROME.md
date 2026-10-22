@@ -8,7 +8,7 @@ After GitHub Pages is enabled (see below), open in **Google Chrome**:
 
 **https://cpearce-arch.github.io/chessApp/**
 
-Bookmark that URL or use **Chrome → Install Pokémon Chess 3D** (install icon in the address bar) to run it like a desktop web app.
+Bookmark that URL or use **Chrome → Install Fantasy Chess 3D** (install icon in the address bar) to run it like a desktop web app.
 
 Works in Safari, Firefox, and Edge as well; Chrome is recommended for WebGL performance.
 
@@ -31,4 +31,4 @@ Open the URL Vite prints (usually http://localhost:5173).
 
 ## Offline / local zip (optional)
 
-If you cannot use the hosted URL, use the **browser-mac** zip and `Play Pokemon Chess 3D.command` from [PLAY_ON_MAC.md](PLAY_ON_MAC.md).
+If you cannot use the hosted URL, use the **browser-mac** zip and `Play Fantasy Chess 3D.command` from [PLAY_ON_MAC.md](PLAY_ON_MAC.md).

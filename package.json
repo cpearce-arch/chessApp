@@ -2,7 +2,7 @@
   "name": "chessapp",
   "private": true,
   "version": "0.1.0",
-  "description": "Local 3D Pokémon-themed chess for Mac and browser",
+  "description": "Local 3D fantasy chess for Mac and browser",
   "author": "Chris Pearce",
   "type": "module",
   "main": "electron/main.cjs",
@@ -21,14 +21,12 @@
     "pack:mac": "npm run build && electron-builder --mac"
   },
   "dependencies": {
-    "@fontsource/inter": "^5.3.0",
     "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.2",
     "chess.js": "^1.4.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "three": "^0.186.1",
-    "troika-three-text": "^0.52.4"
+    "three": "^0.186.1"
   },
   "devDependencies": {
     "@testing-library/react": "^16.3.3",
@@ -49,8 +47,8 @@
     "wait-on": "^9.5.1"
   },
   "build": {
-    "appId": "com.cpearce.pokemonchess3d",
-    "productName": "Pokemon Chess 3D",
+    "appId": "com.cpearce.fantasychess3d",
+    "productName": "Fantasy Chess 3D",
     "directories": {
       "output": "release"
     },
@@ -65,7 +63,7 @@
         "dmg",
         "zip"
       ],
-      "artifactName": "Pokemon-Chess-3D-${version}-mac.${ext}"
+      "artifactName": "Fantasy-Chess-3D-${version}-mac.${ext}"
     }
   }
 }

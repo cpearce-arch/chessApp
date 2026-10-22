@@ -21,8 +21,6 @@ export default defineConfig({
       '@react-three/fiber',
       '@react-three/drei',
       'chess.js',
-      'troika-three-text',
-      '@fontsource/inter/files/inter-latin-400-normal.woff',
     ],
   },
   build: {

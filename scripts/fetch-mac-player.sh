@@ -61,7 +61,7 @@ if [[ -d "$WORK/extracted/dist" ]]; then
 fi
 
 # Legacy Electron zip: extract .app for old launchers
-APP_NAME="Pokemon Chess 3D.app"
+APP_NAME="Fantasy Chess 3D.app"
 APP_SRC="$(find "$WORK/extracted" -maxdepth 4 -name "$APP_NAME" -type d | head -1)"
 if [[ -n "$APP_SRC" ]]; then
   mkdir -p "$ROOT/apps/mac"

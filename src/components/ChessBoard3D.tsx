@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import type { Square } from 'chess.js'
-import { PokemonPiece } from './PokemonPiece'
+import { FantasyPiece } from './FantasyPiece'
 import { isLightSquare, squareFromGrid, squareToWorld } from '../board/coords'
 
 type BoardCell = {
@@ -77,7 +77,7 @@ export function ChessBoard3D({ board, selected, legalTargets, onSquareClick }: P
         const [x, , z] = squareToWorld(square)
         return (
           <group key={`${square}-${fenChar}`} position={[x, 0.06, z]}>
-            <PokemonPiece
+            <FantasyPiece
               fenChar={fenChar}
               color={color}
               selected={selected === square}

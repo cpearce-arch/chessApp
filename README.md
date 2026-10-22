@@ -1,6 +1,6 @@
-# Pokémon Chess 3D
+# Fantasy Chess 3D
 
-**3D chess** with stylized **Pokémon-themed** pieces (original low-poly models, not official Nintendo assets). Runs as a **web app in Chrome** — no Mac installer required.
+**3D chess** with stylized **fantasy creature** pieces (goblins, golems, ghosts, wizards, dragons, paladins). Runs as a **web app in Chrome** — no Mac installer required.
 
 ---
 
@@ -28,18 +28,18 @@ Details: [docs/PLAY_IN_CHROME.md](docs/PLAY_IN_CHROME.md)
 | Select / move | Click piece, then highlighted square |
 | New game | **New game** in the header |
 
-Pawn promotion: choose an evolution when Pichu reaches the last rank.
+Pawn promotion: choose a champion when your goblin reaches the last rank.
 
 ## Piece roster
 
-| Chess | Pokémon |
-|-------|---------|
-| Pawn | Pichu |
-| Rook | Snorlax |
-| Knight | Rapidash |
-| Bishop | Alakazam |
-| Queen | Mewtwo |
-| King | Arceus |
+| Chess | Creature |
+|-------|----------|
+| Pawn | Goblin |
+| Rook | Golem |
+| Knight | Ghost |
+| Bishop | Wizard |
+| Queen | Dragon |
+| King | Paladin |
 
 ---
 
@@ -62,4 +62,4 @@ npm run dev:app      # optional unsigned Electron shell
 | [deploy-pages.yml](.github/workflows/deploy-pages.yml) | Publish Chrome web app on every `main` push |
 | [release-mac.yml](.github/workflows/release-mac.yml) | Optional offline **browser-mac** zip |
 
-Pokémon names/trademarks belong to Nintendo/Creatures/Game Freak; this project uses original 3D shapes for fan-style play.
+Original 3D miniatures — fan-style fantasy chess, not affiliated with any game franchise.

@@ -2,7 +2,7 @@
 
 ## Recommended: browser player (no `.app`)
 
-Current releases use **`Play Pokemon Chess 3D.command`**, which starts **Python’s built-in web server** and opens **Safari/Chrome**. The game is not a separate `.app`, so you usually **won’t** see the “Pokemon Chess 3D.app” malware dialog.
+Current releases use **`Play Fantasy Chess 3D.command`**, which starts **Python’s built-in web server** and opens **Safari/Chrome**. The game is not a separate `.app`, so you usually **won’t** see a separate unsigned game `.app` malware dialog.
 
 You may still need **Right-click → Open** once on the **`.command`** file if macOS quarantined the downloaded zip.
 
@@ -26,7 +26,7 @@ Use **one** of these — do **not** double-click the `.app` for the first launch
 
 ### Method A — Right-click Open (recommended)
 
-1. In Finder, locate **`Pokemon Chess 3D.app`**.
+1. In Finder, locate the legacy **`Pokemon Chess 3D.app`** or **`Fantasy Chess 3D.app`** (if you built Electron locally).
 2. **Control-click** (or right-click) the app.
 3. Choose **Open**.
 4. In the dialog, click **Open** again (not Cancel).
