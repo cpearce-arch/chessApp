@@ -43,11 +43,6 @@ export function ChessBoard3D({ board, selected, legalTargets, onSquareClick }: P
 
   return (
     <group>
-      <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]}>
-        <planeGeometry args={[9.5, 9.5]} />
-        <meshStandardMaterial color="#1a2634" roughness={0.95} />
-      </mesh>
-
       {squares.map(({ square, light }) => {
         const [x, , z] = squareToWorld(square)
         const isSelected = selected === square

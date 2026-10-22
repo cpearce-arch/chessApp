@@ -53,7 +53,14 @@ export function FantasyPiece({ fenChar, color, selected }: Props) {
           <meshBasicMaterial color="#ffd166" transparent opacity={0.9} />
         </mesh>
       )}
-      <Model body={meta.body} accent={meta.accent} secondary={meta.secondary} detail={meta.detail} />
+      <Model
+        body={meta.body}
+        accent={meta.accent}
+        secondary={meta.secondary}
+        detail={meta.detail}
+        cloth={meta.cloth}
+        trim={meta.trim}
+      />
     </group>
   )
 }
