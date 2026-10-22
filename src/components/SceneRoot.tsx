@@ -59,7 +59,7 @@ export function SceneRoot(props: Props) {
         <Environment preset="night" environmentIntensity={0.45} />
         <GrimdarkEnvironment />
         <ChessBoard3D {...props} />
-        <ContactShadows position={[0, -0.1, 0]} opacity={0.55} scale={16} blur={2.8} far={14} />
+        <ContactShadows position={[0, -0.1, 0]} opacity={0.45} scale={16} blur={0.8} far={14} />
       </Suspense>
       <SceneEffects />
       <OrbitControls
