@@ -1,3 +1,7 @@
+/**
+ * Fantasy army colors: separate palettes for White (Dawn) and Black (Umbral).
+ * metaForFenPiece() picks colors from the letter case in FEN (uppercase = White).
+ */
 export type FantasyRole =
   | 'pawn'
   | 'rook'

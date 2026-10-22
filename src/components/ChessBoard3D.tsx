@@ -1,3 +1,7 @@
+/**
+ * Renders the 8×8 board as stone tiles and places one FantasyPiece per occupied square.
+ * Square clicks call onSquareClick with the chess square id (e.g. "e4").
+ */
 import { useMemo } from 'react'
 import type { Square } from 'chess.js'
 import { FantasyPiece } from './FantasyPiece'

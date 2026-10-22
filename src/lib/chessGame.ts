@@ -1,3 +1,7 @@
+/**
+ * Thin wrapper around chess.js — single place for move validation and board snapshots.
+ * The 3D UI never talks to chess.js directly; it goes through this class.
+ */
 import { Chess, type Square } from 'chess.js'
 
 export type GameSnapshot = {
@@ -37,6 +41,7 @@ export class ChessGame {
       const result = this.chess.move({ from, to, promotion: promotion ?? 'q' })
       return result !== null
     } catch {
+      // chess.js throws on illegal moves; treat as "move rejected"
       return false
     }
   }

@@ -1,3 +1,7 @@
+/**
+ * Shared 3D building blocks: subdivision constants (G), eyes, stud rings, scale spines.
+ * Re-exports mat/pbr/ghostSheet from pbrMaterials for creature models.
+ */
 import type { ReactNode } from 'react'
 import { ghostSheet, mat, pbr } from './pbrMaterials'
 

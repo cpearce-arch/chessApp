@@ -1,9 +1,14 @@
+/**
+ * Top-level UI: header (turn, AI level), 3D viewport, piece legend, promotion modal.
+ * Game rules live in useChessGame; this file only lays out HTML and passes props to SceneRoot.
+ */
 import { useState } from 'react'
 import { useChessGame } from './hooks/useChessGame'
 import { SceneRoot } from './components/SceneRoot'
 import type { AiDifficulty } from './lib/chessAI'
 import './App.css'
 
+/** Human-readable promotion choices (chess piece letter → fantasy name). */
 const PROMO_LABELS = {
   q: 'Dragon (Queen)',
   r: 'Golem (Rook)',

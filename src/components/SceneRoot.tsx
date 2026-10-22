@@ -1,3 +1,7 @@
+/**
+ * WebGL canvas root: camera, lighting, HDRI environment, grimdark set, board, post-processing.
+ * OrbitControls let the player rotate/zoom; clicks on squares are handled in ChessBoard3D.
+ */
 import { ContactShadows, Environment, OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'

@@ -1,10 +1,14 @@
+/**
+ * Electron shell: opens a desktop window loading the same Vite app as the browser.
+ * Dev: loads VITE_DEV_SERVER_URL. Production: loads packaged dist/index.html (file://).
+ * Navigation is locked down so the game cannot be used as a general browser.
+ */
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 
 const isDev = Boolean(process.env.VITE_DEV_SERVER_URL)
 
 function distIndexPath() {
-  // Packaged: app.asar/dist/index.html — __dirname is app.asar/electron
   return path.join(__dirname, '../dist/index.html')
 }
 

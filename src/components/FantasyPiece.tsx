@@ -1,3 +1,7 @@
+/**
+ * Chooses the 3D creature model and color palette from a FEN piece letter (K/Q/R/B/N/P).
+ * Black pieces rotate to face White; selected pieces show a gold ring at the base.
+ */
 import type { ComponentType } from 'react'
 import type { FantasyRole } from '../fantasy/pieces'
 import { metaForFenPiece } from '../fantasy/pieces'

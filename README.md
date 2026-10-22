@@ -43,6 +43,12 @@ Pawn promotion: choose a champion when your goblin reaches the last rank.
 
 ---
 
+## How it works
+
+For a plain-language tour of the architecture (chess rules, AI, React flow, and 3D rendering), see **[docs/HOW_IT_WORKS.md](docs/HOW_IT_WORKS.md)**.
+
+---
+
 ## Developers
 
 Requires [Node.js](https://nodejs.org/) 20+ and npm.

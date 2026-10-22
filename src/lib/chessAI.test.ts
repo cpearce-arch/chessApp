@@ -1,3 +1,4 @@
+/** Smoke tests: AI returns legal Black moves and respects turn. */
 import { describe, expect, it } from 'vitest'
 import { chooseAIMove } from './chessAI'
 

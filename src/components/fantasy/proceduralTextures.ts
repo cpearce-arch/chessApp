@@ -1,3 +1,7 @@
+/**
+ * Builds small random grayscale textures in memory (canvas + noise).
+ * Attached as roughnessMap/bumpMap so stone and metal are not flat single colors.
+ */
 import * as THREE from 'three'
 
 function fillNoise(canvas: HTMLCanvasElement, base: number, spread: number, seed: number) {
