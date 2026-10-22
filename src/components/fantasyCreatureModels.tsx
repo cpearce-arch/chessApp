@@ -1,23 +1,30 @@
-import { Eyes, ghostSheet, mat, type PaletteProps } from './fantasy/modelParts'
+import {
+  Eyes,
+  G,
+  ghostSheet,
+  mat,
+  ScaleSpine,
+  StudRing,
+  type PaletteProps,
+} from './fantasy/modelParts'
 
 /** Models face +Z; Black rotates 180° in FantasyPiece. */
 
-export function GoblinModel({ body, accent, secondary, detail }: PaletteProps) {
+export function GoblinModel({ body, accent, secondary, detail, cloth, trim }: PaletteProps) {
   return (
     <group scale={1.08}>
-      {/* torso */}
       <mesh position={[0, 0.26, 0.02]} castShadow>
-        <sphereGeometry args={[0.24, 28, 28]} />
+        <sphereGeometry args={[0.24, G.sphere, G.sphere]} />
         {mat(body)}
       </mesh>
       <mesh position={[0, 0.18, 0]} castShadow>
-        <cylinderGeometry args={[0.2, 0.24, 0.16, 12]} />
+        <cylinderGeometry args={[0.2, 0.24, 0.16, G.cylinder]} />
         {mat(accent)}
       </mesh>
-      {/* loincloth / belt */}
+      <StudRing y={0.14} radius={0.21} count={14} size={0.022} color={trim} emissive={trim} />
       <mesh position={[0, 0.14, 0.04]} castShadow>
-        <cylinderGeometry args={[0.22, 0.2, 0.08, 10]} />
-        {mat(detail)}
+        <cylinderGeometry args={[0.22, 0.2, 0.08, G.cylinder]} />
+        {mat(cloth)}
       </mesh>
       {[-0.1, 0.1].map((x) => (
         <mesh key={x} position={[x, 0.1, 0.1]} rotation={[0.2, 0, 0]} castShadow>
@@ -25,79 +32,72 @@ export function GoblinModel({ body, accent, secondary, detail }: PaletteProps) {
           {mat(accent)}
         </mesh>
       ))}
-      {/* head */}
       <mesh position={[0, 0.48, 0.06]} castShadow>
-        <sphereGeometry args={[0.21, 26, 26]} />
+        <sphereGeometry args={[0.21, G.sphere, G.sphere]} />
         {mat(secondary)}
       </mesh>
       <mesh position={[0, 0.44, 0.2]} rotation={[0.25, 0, 0]} castShadow>
-        <sphereGeometry args={[0.08, 14, 14]} />
+        <sphereGeometry args={[0.08, G.sphereMed, G.sphereMed]} />
         {mat(body)}
       </mesh>
-      {/* ears */}
       {[-1, 1].map((s) => (
         <group key={s}>
           <mesh position={[s * 0.22, 0.58, -0.02]} rotation={[0, 0, s * 0.85]} castShadow>
-            <coneGeometry args={[0.07, 0.26, 6]} />
+            <coneGeometry args={[0.07, 0.26, G.cone]} />
             {mat(body)}
           </mesh>
           <mesh position={[s * 0.2, 0.52, 0.02]} rotation={[0, 0, s * 0.5]} castShadow>
-            <coneGeometry args={[0.04, 0.12, 5]} />
+            <coneGeometry args={[0.04, 0.12, G.cone]} />
             {mat(secondary)}
           </mesh>
         </group>
       ))}
-      <Eyes y={0.5} z={0.2} spacing={0.075} size={0.03} iris="#ffeb3b" angry />
-      {/* nose */}
+      <Eyes y={0.5} z={0.2} spacing={0.075} size={0.03} iris={detail} angry />
       <mesh position={[0, 0.44, 0.24]} rotation={[0.5, 0, 0]} castShadow>
-        <coneGeometry args={[0.035, 0.08, 5]} />
-        {mat('#558b2f')}
+        <coneGeometry args={[0.035, 0.08, G.cone]} />
+        {mat(accent)}
       </mesh>
-      {/* teeth */}
-      {[-0.04, 0, 0.04].map((x) => (
+      {[-0.05, -0.025, 0, 0.025, 0.05].map((x) => (
         <mesh key={x} position={[x, 0.38, 0.22]} rotation={[0.3, 0, 0]} castShadow>
-          <coneGeometry args={[0.015, 0.04, 4]} />
+          <coneGeometry args={[0.014, 0.038, 8]} />
           {mat('#eceff1')}
         </mesh>
       ))}
-      {/* crude dagger */}
       <mesh position={[0.16, 0.32, 0.14]} rotation={[0, -0.5, 0.35]} castShadow>
         <boxGeometry args={[0.035, 0.14, 0.012]} />
-        {mat('#90a4ae', { metalness: 0.75, roughness: 0.25 })}
+        {mat(trim, { metalness: 0.75, roughness: 0.22 })}
       </mesh>
       <mesh position={[0.19, 0.38, 0.16]} rotation={[0, -0.5, 0.35]} castShadow>
         <boxGeometry args={[0.05, 0.06, 0.02]} />
-        {mat('#6d4c41')}
+        {mat(cloth)}
       </mesh>
-      {/* arms */}
       {[-1, 1].map((s) => (
         <group key={s}>
           <mesh position={[s * 0.28, 0.34, 0.06]} rotation={[0.3, 0, s * -0.6]} castShadow>
-            <capsuleGeometry args={[0.05, 0.14, 8, 12]} />
+            <capsuleGeometry args={[0.05, 0.14, G.capsuleRadial, G.capsuleHeight]} />
             {mat(body)}
           </mesh>
           <mesh position={[s * 0.34, 0.24, 0.12]} rotation={[0.5, 0, s * -0.4]} castShadow>
-            <capsuleGeometry args={[0.045, 0.12, 6, 10]} />
+            <capsuleGeometry args={[0.045, 0.12, G.capsuleRadial, G.capsuleHeight]} />
             {mat(secondary)}
           </mesh>
-          {[0, 1, 2].map((i) => (
+          {[0, 1, 2, 3].map((i) => (
             <mesh
               key={i}
-              position={[s * (0.36 + i * 0.01), 0.16 + i * 0.02, 0.14 + i * 0.02]}
+              position={[s * (0.36 + i * 0.008), 0.16 + i * 0.018, 0.14 + i * 0.018]}
               rotation={[0.6, 0, s * -0.2]}
               castShadow
             >
-              <capsuleGeometry args={[0.012, 0.04, 4, 6]} />
-              {mat('#78909c')}
+              <capsuleGeometry args={[0.012, 0.038, 8, 16]} />
+              {mat(trim, { metalness: 0.4 })}
             </mesh>
           ))}
         </group>
       ))}
-      {/* legs & feet */}
       {[-0.1, 0.1].map((x) => (
         <group key={x}>
           <mesh position={[x, 0.08, 0.04]} castShadow>
-            <capsuleGeometry args={[0.055, 0.1, 8, 12]} />
+            <capsuleGeometry args={[0.055, 0.1, G.capsuleRadial, G.capsuleHeight]} />
             {mat(body)}
           </mesh>
           <mesh position={[x, 0.02, 0.08]} castShadow>
@@ -106,36 +106,42 @@ export function GoblinModel({ body, accent, secondary, detail }: PaletteProps) {
           </mesh>
           <mesh position={[x, 0.04, 0.14]} castShadow>
             <boxGeometry args={[0.08, 0.03, 0.04]} />
-            {mat('#455a64')}
+            {mat(accent)}
           </mesh>
         </group>
       ))}
-      {/* backpack sack */}
       <mesh position={[0, 0.32, -0.14]} castShadow>
-        <sphereGeometry args={[0.12, 16, 16]} />
-        {mat('#795548')}
+        <sphereGeometry args={[0.12, G.sphereMed, G.sphereMed]} />
+        {mat(cloth)}
       </mesh>
+      <ScaleSpine
+        color={trim}
+        points={[
+          [0, 0.34, -0.1],
+          [0, 0.28, -0.12],
+          [0, 0.22, -0.11],
+        ]}
+        scaleSize={0.028}
+      />
     </group>
   )
 }
 
-export function GolemModel({ body, accent, secondary, detail }: PaletteProps) {
-  const runeGlow = { emissive: detail, intensity: 0.45 }
+export function GolemModel({ body, accent, secondary, detail, cloth, trim }: PaletteProps) {
+  const runeGlow = { emissive: detail, intensity: 0.5 }
   return (
     <group scale={1.06}>
-      {/* base plinth */}
       <mesh position={[0, 0.06, 0]} castShadow>
         <boxGeometry args={[0.58, 0.1, 0.52]} />
-        {mat(detail, { emissive: detail, intensity: 0.12 })}
+        {mat(cloth, { emissive: detail, intensity: 0.08 })}
       </mesh>
-      {/* legs */}
+      <StudRing y={0.1} radius={0.26} count={16} size={0.018} color={trim} />
       {[-0.16, 0.16].map((x) => (
         <mesh key={x} position={[x, 0.16, 0]} castShadow>
           <boxGeometry args={[0.18, 0.14, 0.22]} />
           {mat(accent)}
         </mesh>
       ))}
-      {/* torso blocks */}
       <mesh position={[0, 0.28, 0]} castShadow>
         <boxGeometry args={[0.52, 0.22, 0.44]} />
         {mat(body)}
@@ -148,22 +154,22 @@ export function GolemModel({ body, accent, secondary, detail }: PaletteProps) {
         <boxGeometry args={[0.38, 0.2, 0.32]} />
         {mat(accent)}
       </mesh>
-      {/* carved chest runes */}
       {[
         [0, 0.38, 0.22],
         [-0.08, 0.42, 0.2],
         [0.08, 0.42, 0.2],
+        [-0.04, 0.36, 0.21],
+        [0.04, 0.36, 0.21],
       ].map((p, i) => (
         <mesh key={i} position={p as [number, number, number]} castShadow>
-          <boxGeometry args={[0.04, 0.04, 0.02]} />
+          <boxGeometry args={[0.035, 0.035, 0.018]} />
           {mat(detail, runeGlow)}
         </mesh>
       ))}
       <mesh position={[0, 0.48, 0.21]} castShadow>
-        <torusGeometry args={[0.06, 0.012, 8, 16]} />
+        <torusGeometry args={[0.07, 0.014, G.torusTube, G.torusRing]} />
         {mat(detail, runeGlow)}
       </mesh>
-      {/* head */}
       <mesh position={[0, 0.72, 0.06]} castShadow>
         <boxGeometry args={[0.32, 0.22, 0.28]} />
         {mat(body)}
@@ -173,20 +179,19 @@ export function GolemModel({ body, accent, secondary, detail }: PaletteProps) {
         {mat(accent)}
       </mesh>
       <Eyes y={0.72} z={0.2} spacing={0.1} size={0.038} iris={detail} />
-      {/* moss / cracks */}
       {[
         [0.14, 0.35, 0.2],
         [-0.12, 0.28, -0.18],
         [0.06, 0.55, -0.14],
         [-0.18, 0.5, 0.1],
         [0.2, 0.62, 0.05],
+        [-0.08, 0.62, -0.08],
       ].map((p, i) => (
         <mesh key={i} position={p as [number, number, number]} castShadow>
-          <sphereGeometry args={[0.045, 10, 10]} />
-          {mat('#558b2f')}
+          <sphereGeometry args={[0.042, G.sphereLo, G.sphereLo]} />
+          {mat(secondary)}
         </mesh>
       ))}
-      {/* arms */}
       {[-0.42, 0.42].map((x) => (
         <group key={x}>
           <mesh position={[x, 0.44, 0]} castShadow>
@@ -197,309 +202,282 @@ export function GolemModel({ body, accent, secondary, detail }: PaletteProps) {
             <boxGeometry args={[0.12, 0.14, 0.14]} />
             {mat(secondary)}
           </mesh>
-          {[0, 1, 2].map((i) => (
+          {[0, 1, 2, 3].map((i) => (
             <mesh
               key={i}
-              position={[x > 0 ? x + 0.1 : x - 0.1, 0.26 - i * 0.04, 0.1 + i * 0.02]}
+              position={[x > 0 ? x + 0.1 : x - 0.1, 0.26 - i * 0.035, 0.1 + i * 0.018]}
               castShadow
             >
-              <boxGeometry args={[0.05, 0.04, 0.06]} />
+              <boxGeometry args={[0.048, 0.038, 0.055]} />
               {mat(body)}
             </mesh>
           ))}
         </group>
       ))}
-      {/* shoulder crystals */}
       {[-0.34, 0.34].map((x) => (
         <mesh key={x} position={[x, 0.62, 0]} castShadow>
-          <octahedronGeometry args={[0.06, 0]} />
-          {mat(detail, { emissive: detail, intensity: 0.65, metalness: 0.2 })}
+          <icosahedronGeometry args={[0.065, G.icosa]} />
+          {mat(detail, { emissive: detail, intensity: 0.7, metalness: 0.25 })}
         </mesh>
       ))}
     </group>
   )
 }
 
-export function GhostModel({ body, accent, secondary, detail }: PaletteProps) {
+export function GhostModel({ body, accent, secondary, detail, cloth, trim }: PaletteProps) {
   const sheet = ghostSheet(body, accent)
+  const inner = ghostSheet(secondary, accent, 0.62)
   return (
     <group>
-      {/* head */}
       <mesh position={[0, 0.42, 0]} castShadow>
-        <sphereGeometry args={[0.21, 28, 28]} />
+        <sphereGeometry args={[0.21, G.sphere, G.sphere]} />
         {sheet}
       </mesh>
       <mesh position={[0, 0.52, 0]} castShadow>
-        <sphereGeometry args={[0.08, 12, 12]} />
-        <meshStandardMaterial color={secondary} emissive={accent} emissiveIntensity={0.4} transparent opacity={0.85} />
+        <sphereGeometry args={[0.08, G.sphereMed, G.sphereMed]} />
+        <meshStandardMaterial color={trim} emissive={accent} emissiveIntensity={0.45} transparent opacity={0.88} />
       </mesh>
       <Eyes y={0.44} z={0.17} spacing={0.065} size={0.036} iris={detail} />
-      {/* open mouth */}
       <mesh position={[0, 0.34, 0.18]} castShadow>
-        <torusGeometry args={[0.05, 0.012, 8, 16, Math.PI]} />
-        <meshStandardMaterial color="#1a237e" emissive={accent} emissiveIntensity={0.5} />
+        <torusGeometry args={[0.055, 0.014, G.torusTube, G.torusRing, Math.PI]} />
+        <meshStandardMaterial color={cloth} emissive={accent} emissiveIntensity={0.55} />
       </mesh>
-      {/* flowing sheet body — layered cones */}
       <mesh position={[0, 0.24, 0]} castShadow>
-        <coneGeometry args={[0.3, 0.48, 24, 1, true]} />
+        <coneGeometry args={[0.3, 0.48, G.cone, 1, true]} />
         {sheet}
       </mesh>
       <mesh position={[0, 0.2, 0.02]} castShadow>
-        <coneGeometry args={[0.26, 0.4, 20, 1, true]} />
-        <meshStandardMaterial color={secondary} transparent opacity={0.55} emissive={accent} emissiveIntensity={0.08} />
+        <coneGeometry args={[0.26, 0.4, G.cone, 1, true]} />
+        {inner}
       </mesh>
-      {/* wispy tail tendrils */}
       {[
         [0, 0.06, -0.08, 0],
         [-0.12, 0.04, 0.02, 0.4],
         [0.12, 0.04, 0.02, -0.4],
         [-0.08, 0.02, -0.12, 0.2],
         [0.08, 0.02, -0.1, -0.2],
+        [0, 0.01, 0.1, 0.1],
       ].map(([x, y, z, rot], i) => (
         <mesh key={i} position={[x as number, y as number, z as number]} rotation={[0.5, 0, rot as number]} castShadow>
-          <capsuleGeometry args={[0.035, 0.22, 8, 12]} />
+          <capsuleGeometry args={[0.035, 0.24, G.capsuleRadial, G.capsuleHeight]} />
           {sheet}
         </mesh>
       ))}
-      {/* arms */}
       {[-0.18, 0.18].map((x) => (
         <group key={x}>
           <mesh position={[x, 0.28, 0.06]} rotation={[0.3, 0, x > 0 ? -0.6 : 0.6]} castShadow>
-            <capsuleGeometry args={[0.04, 0.2, 8, 12]} />
+            <capsuleGeometry args={[0.04, 0.22, G.capsuleRadial, G.capsuleHeight]} />
             {sheet}
           </mesh>
-          {[0, 1, 2].map((i) => (
+          {[0, 1, 2, 3].map((i) => (
             <mesh
               key={i}
-              position={[x + (x > 0 ? 0.04 : -0.04), 0.14 - i * 0.03, 0.1 + i * 0.02]}
+              position={[x + (x > 0 ? 0.04 : -0.04), 0.14 - i * 0.028, 0.1 + i * 0.018]}
               rotation={[0.5, 0, x > 0 ? -0.3 : 0.3]}
               castShadow
             >
-              <capsuleGeometry args={[0.018, 0.06, 4, 8]} />
+              <capsuleGeometry args={[0.018, 0.065, 10, 20]} />
               {sheet}
             </mesh>
           ))}
         </group>
       ))}
-      {/* ectoplasm ring */}
       <mesh position={[0, 0.02, 0]} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[0.2, 0.014, 10, 32]} />
-        <meshStandardMaterial color={secondary} transparent opacity={0.5} emissive={accent} emissiveIntensity={0.45} />
+        <torusGeometry args={[0.2, 0.016, G.torusTube, G.torusRing]} />
+        <meshStandardMaterial color={secondary} transparent opacity={0.55} emissive={detail} emissiveIntensity={0.5} />
       </mesh>
-      {/* chains (knight ghost trope) */}
-      {[-0.06, 0.06].map((x, i) => (
+      {[-0.06, 0, 0.06].map((x, i) => (
         <mesh key={i} position={[x, 0.56, -0.04]} rotation={[0.3, 0, 0]}>
-          <torusGeometry args={[0.035, 0.008, 6, 12]} />
-          {mat('#78909c', { metalness: 0.7, roughness: 0.3 })}
+          <torusGeometry args={[0.038, 0.01, 12, G.torusRing]} />
+          {mat(trim, { metalness: 0.75, roughness: 0.28 })}
         </mesh>
       ))}
     </group>
   )
 }
 
-export function WizardModel({ body, accent, secondary, detail }: PaletteProps) {
+export function WizardModel({ body, accent, secondary, detail, cloth, trim }: PaletteProps) {
   return (
     <group scale={1.06}>
-      {/* robes — layered */}
       <mesh position={[0, 0.22, 0]} castShadow>
-        <cylinderGeometry args={[0.26, 0.32, 0.36, 18]} />
+        <cylinderGeometry args={[0.26, 0.32, 0.36, G.cylinder]} />
         {mat(body)}
       </mesh>
       <mesh position={[0, 0.38, 0.02]} castShadow>
-        <cylinderGeometry args={[0.22, 0.26, 0.2, 16]} />
-        {mat(detail)}
+        <cylinderGeometry args={[0.22, 0.26, 0.2, G.cylinder]} />
+        {mat(cloth)}
       </mesh>
-      {/* trim */}
-      {Array.from({ length: 8 }, (_, i) => {
-        const a = (i / 8) * Math.PI * 2
-        return (
-          <mesh key={i} position={[Math.sin(a) * 0.27, 0.12, Math.cos(a) * 0.27]} castShadow>
-            <sphereGeometry args={[0.025, 8, 8]} />
-            {mat(accent, { emissive: accent, intensity: 0.2 })}
-          </mesh>
-        )
-      })}
-      {/* head & beard */}
+      <StudRing y={0.12} radius={0.28} count={18} size={0.022} color={trim} emissive={accent} />
       <mesh position={[0, 0.54, 0.04]} castShadow>
-        <sphereGeometry args={[0.14, 22, 22]} />
+        <sphereGeometry args={[0.14, G.sphere, G.sphere]} />
         {mat(secondary)}
       </mesh>
       <mesh position={[0, 0.46, 0.12]} castShadow>
-        <sphereGeometry args={[0.09, 16, 16]} />
-        {mat('#cfd8dc')}
+        <sphereGeometry args={[0.09, G.sphereMed, G.sphereMed]} />
+        {mat(secondary, { roughness: 0.35 })}
       </mesh>
       <mesh position={[0, 0.38, 0.14]} rotation={[0.2, 0, 0]} castShadow>
-        <coneGeometry args={[0.1, 0.22, 12]} />
+        <coneGeometry args={[0.1, 0.24, G.cone]} />
         {mat('#eceff1')}
       </mesh>
-      {/* hat */}
       <mesh position={[0, 0.68, 0]} castShadow>
-        <cylinderGeometry args={[0.16, 0.16, 0.06, 16]} />
-        {mat(detail)}
+        <cylinderGeometry args={[0.16, 0.16, 0.06, G.cylinder]} />
+        {mat(cloth)}
       </mesh>
       <mesh position={[0, 0.82, 0]} castShadow>
-        <coneGeometry args={[0.2, 0.42, 12]} />
-        {mat(detail)}
+        <coneGeometry args={[0.2, 0.42, G.cone]} />
+        {mat(cloth)}
       </mesh>
       <mesh position={[0, 0.62, 0.14]} rotation={[0.3, 0, 0]} castShadow>
         <boxGeometry args={[0.22, 0.02, 0.08]} />
-        {mat(accent, { emissive: accent, intensity: 0.25 })}
+        {mat(trim, { emissive: accent, intensity: 0.35 })}
       </mesh>
-      <Eyes y={0.56} z={0.14} spacing={0.048} size={0.02} />
-      {/* staff */}
+      <Eyes y={0.56} z={0.14} spacing={0.048} size={0.02} iris={detail} />
       <mesh position={[0.24, 0.38, 0.06]} castShadow>
-        <cylinderGeometry args={[0.022, 0.028, 0.72, 10]} />
-        {mat(accent, { metalness: 0.4, roughness: 0.35 })}
+        <cylinderGeometry args={[0.022, 0.028, 0.72, G.cylinder]} />
+        {mat(trim, { metalness: 0.45, roughness: 0.32 })}
       </mesh>
       {[0.12, 0.28, 0.44, 0.58].map((y) => (
         <mesh key={y} position={[0.24, y, 0.06]} rotation={[Math.PI / 2, 0, 0]} castShadow>
-          <torusGeometry args={[0.032, 0.006, 6, 12]} />
-          {mat('#5d4037')}
+          <torusGeometry args={[0.032, 0.007, G.torusTube, G.torusRing]} />
+          {mat(accent, { metalness: 0.35 })}
         </mesh>
       ))}
-      {/* orb */}
       <mesh position={[0.24, 0.72, 0.06]} castShadow>
-        <sphereGeometry args={[0.07, 20, 20]} />
-        {mat('#e1f5fe', { emissive: '#29b6f6', intensity: 0.75 })}
+        <sphereGeometry args={[0.07, G.sphere, G.sphere]} />
+        {mat(detail, { emissive: detail, intensity: 0.85 })}
       </mesh>
       <mesh position={[0.24, 0.72, 0.06]}>
-        <sphereGeometry args={[0.1, 16, 16]} />
-        <meshStandardMaterial color="#81d4fa" transparent opacity={0.25} emissive="#29b6f6" emissiveIntensity={0.3} />
+        <sphereGeometry args={[0.1, G.sphereMed, G.sphereMed]} />
+        <meshStandardMaterial color={detail} transparent opacity={0.28} emissive={detail} emissiveIntensity={0.45} />
       </mesh>
-      {/* spell book */}
       <mesh position={[-0.14, 0.36, 0.1]} rotation={[0, 0.4, 0.15]} castShadow>
         <boxGeometry args={[0.12, 0.16, 0.04]} />
-        {mat('#4e342e')}
+        {mat(cloth)}
       </mesh>
       <mesh position={[-0.1, 0.36, 0.13]} rotation={[0, 0.4, 0.15]} castShadow>
         <boxGeometry args={[0.08, 0.12, 0.01]} />
-        {mat('#ffecb3', { emissive: accent, intensity: 0.15 })}
+        {mat(trim, { emissive: accent, intensity: 0.2 })}
       </mesh>
-      {/* free hand */}
       <mesh position={[-0.2, 0.42, 0.08]} rotation={[0, 0, 0.5]} castShadow>
-        <capsuleGeometry args={[0.035, 0.1, 6, 10]} />
+        <capsuleGeometry args={[0.035, 0.1, G.capsuleRadial, G.capsuleHeight]} />
         {mat(secondary)}
       </mesh>
-      {/* floating runes */}
       {[
         [-0.08, 0.62, 0.2],
         [0.06, 0.66, 0.18],
         [0, 0.7, 0.22],
+        [-0.04, 0.74, 0.19],
+        [0.04, 0.73, 0.21],
       ].map((p, i) => (
         <mesh key={i} position={p as [number, number, number]} castShadow>
-          <octahedronGeometry args={[0.025, 0]} />
-          {mat(accent, { emissive: accent, intensity: 0.55 })}
+          <icosahedronGeometry args={[0.028, 1]} />
+          {mat(accent, { emissive: accent, intensity: 0.6 })}
         </mesh>
       ))}
     </group>
   )
 }
 
-export function DragonModel({ body, accent, secondary, detail }: PaletteProps) {
+export function DragonModel({ body, accent, secondary, detail, cloth, trim }: PaletteProps) {
+  const spine: [number, number, number][] = []
+  for (let i = 0; i < 8; i++) {
+    spine.push([0, 0.32 + i * 0.04, -0.08 - i * 0.03])
+  }
   return (
     <group scale={1.04}>
-      {/* body */}
       <mesh position={[0, 0.34, 0.04]} castShadow>
-        <capsuleGeometry args={[0.17, 0.34, 14, 24]} />
+        <capsuleGeometry args={[0.17, 0.34, G.capsuleRadial, G.capsuleHeight]} />
         {mat(body)}
       </mesh>
       <mesh position={[0, 0.38, 0.1]} castShadow>
-        <sphereGeometry args={[0.14, 20, 20]} />
+        <sphereGeometry args={[0.14, G.sphere, G.sphere]} />
         {mat(secondary)}
       </mesh>
-      {/* neck */}
+      <ScaleSpine points={spine} color={trim} scaleSize={0.032} />
       <mesh position={[0, 0.52, 0.2]} rotation={[-0.55, 0, 0]} castShadow>
-        <capsuleGeometry args={[0.1, 0.26, 12, 20]} />
+        <capsuleGeometry args={[0.1, 0.26, G.capsuleRadial, G.capsuleHeight]} />
         {mat(body)}
       </mesh>
-      {/* head */}
       <mesh position={[0, 0.68, 0.34]} castShadow>
-        <sphereGeometry args={[0.14, 22, 22]} />
+        <sphereGeometry args={[0.14, G.sphere, G.sphere]} />
         {mat(secondary)}
       </mesh>
       <mesh position={[0, 0.66, 0.48]} rotation={[0.15, 0, 0]} castShadow>
         <boxGeometry args={[0.12, 0.06, 0.14]} />
         {mat(body)}
       </mesh>
-      {/* horns */}
       {[-0.06, 0.06].map((x) => (
         <mesh key={x} position={[x, 0.82, 0.32]} rotation={[-0.3, 0, x > 0 ? 0.25 : -0.25]} castShadow>
-          <coneGeometry args={[0.035, 0.18, 6]} />
-          {mat(accent, { emissive: accent, intensity: 0.3 })}
+          <coneGeometry args={[0.035, 0.2, G.cone]} />
+          {mat(accent, { emissive: accent, intensity: 0.35 })}
         </mesh>
       ))}
-      {/* frill */}
-      {[-0.1, -0.05, 0, 0.05, 0.1].map((x) => (
+      {[-0.12, -0.08, -0.04, 0, 0.04, 0.08, 0.12].map((x) => (
         <mesh key={x} position={[x, 0.74, 0.26]} rotation={[-0.6, 0, 0]} castShadow>
-          <coneGeometry args={[0.03, 0.1, 4]} />
-          {mat(detail, { emissive: detail, intensity: 0.35 })}
+          <coneGeometry args={[0.028, 0.11, G.cone]} />
+          {mat(detail, { emissive: detail, intensity: 0.4 })}
         </mesh>
       ))}
       <Eyes y={0.7} z={0.42} spacing={0.058} size={0.028} iris={detail} angry />
-      {/* nostrils & smoke hint */}
       {[-0.04, 0.04].map((x) => (
         <mesh key={x} position={[x, 0.64, 0.5]} castShadow>
-          <sphereGeometry args={[0.018, 8, 8]} />
-          {mat('#212121')}
+          <sphereGeometry args={[0.018, G.sphereLo, G.sphereLo]} />
+          {mat(cloth)}
         </mesh>
       ))}
-      {/* chest gem / fire core */}
       <mesh position={[0, 0.4, 0.18]} castShadow>
-        <octahedronGeometry args={[0.06, 0]} />
-        {mat(detail, { emissive: detail, intensity: 0.85 })}
+        <icosahedronGeometry args={[0.065, G.icosa]} />
+        {mat(detail, { emissive: detail, intensity: 0.9 })}
       </mesh>
-      {/* wings — segmented */}
       {[-0.34, 0.34].map((x) => (
         <group key={x} rotation={[0.15, x > 0 ? -0.55 : 0.55, x > 0 ? -0.15 : 0.15]}>
           <mesh position={[x, 0.58, -0.1]} castShadow>
             <boxGeometry args={[0.03, 0.42, 0.32]} />
             {mat(secondary)}
           </mesh>
-          {[0.12, 0.24, 0.36].map((dy) => (
-            <mesh key={dy} position={[x, 0.58 - dy * 0.3, -0.1 - dy * 0.08]} castShadow>
-              <boxGeometry args={[0.025, 0.14, 0.22 - dy * 0.15]} />
+          {[0.12, 0.24, 0.36, 0.48].map((dy) => (
+            <mesh key={dy} position={[x, 0.58 - dy * 0.28, -0.1 - dy * 0.07]} castShadow>
+              <boxGeometry args={[0.024, 0.12, 0.2 - dy * 0.12]} />
               {mat(body)}
             </mesh>
           ))}
           <mesh position={[x, 0.62, -0.08]} castShadow>
-            <boxGeometry args={[0.02, 0.08, 0.12]} />
-            {mat(accent, { emissive: accent, intensity: 0.2 })}
+            <boxGeometry args={[0.018, 0.08, 0.12]} />
+            {mat(cloth, { emissive: accent, intensity: 0.15 })}
           </mesh>
         </group>
       ))}
-      {/* tail */}
       <mesh position={[0, 0.28, -0.2]} rotation={[0.55, 0, 0]} castShadow>
-        <capsuleGeometry args={[0.08, 0.28, 10, 16]} />
+        <capsuleGeometry args={[0.08, 0.28, G.capsuleRadial, G.capsuleHeight]} />
         {mat(body)}
       </mesh>
       <mesh position={[0, 0.18, -0.38]} rotation={[0.7, 0, 0]} castShadow>
-        <coneGeometry args={[0.06, 0.2, 6]} />
-        {mat(accent, { emissive: accent, intensity: 0.25 })}
+        <coneGeometry args={[0.06, 0.22, G.cone]} />
+        {mat(accent, { emissive: accent, intensity: 0.3 })}
       </mesh>
-      {/* legs & claws */}
       {[-0.12, 0.12].map((x) => (
         <group key={x}>
           <mesh position={[x, 0.14, 0.08]} castShadow>
-            <capsuleGeometry args={[0.05, 0.12, 8, 12]} />
+            <capsuleGeometry args={[0.05, 0.12, G.capsuleRadial, G.capsuleHeight]} />
             {mat(body)}
           </mesh>
-          {[0, 1, 2].map((i) => (
+          {[0, 1, 2, 3].map((i) => (
             <mesh
               key={i}
-              position={[x + (i - 1) * 0.025, 0.04, 0.14 + i * 0.02]}
-              rotation={[0.4, 0, (i - 1) * 0.2]}
+              position={[x + (i - 1.5) * 0.022, 0.04, 0.14 + i * 0.018]}
+              rotation={[0.4, 0, (i - 1.5) * 0.18]}
               castShadow
             >
-              <coneGeometry args={[0.012, 0.05, 4]} />
-              {mat('#37474f', { metalness: 0.5 })}
+              <coneGeometry args={[0.012, 0.055, 10]} />
+              {mat(trim, { metalness: 0.55 })}
             </mesh>
           ))}
         </group>
       ))}
-      {/* arm spines */}
       {[-0.2, 0.2].map((x) => (
         <mesh key={x} position={[x, 0.42, 0.02]} rotation={[0, 0, x > 0 ? -0.4 : 0.4]} castShadow>
-          <capsuleGeometry args={[0.04, 0.16, 6, 10]} />
+          <capsuleGeometry args={[0.04, 0.16, G.capsuleRadial, G.capsuleHeight]} />
           {mat(body)}
         </mesh>
       ))}
@@ -507,11 +485,10 @@ export function DragonModel({ body, accent, secondary, detail }: PaletteProps) {
   )
 }
 
-export function PaladinModel({ body, accent, secondary, detail }: PaletteProps) {
+export function PaladinModel({ body, accent, secondary, detail, cloth, trim }: PaletteProps) {
   const plate = { metalness: 0.62, roughness: 0.28 }
   return (
     <group scale={1.06}>
-      {/* greaves & sabatons */}
       {[-0.1, 0.1].map((x) => (
         <group key={x}>
           <mesh position={[x, 0.1, 0.02]} castShadow>
@@ -522,36 +499,33 @@ export function PaladinModel({ body, accent, secondary, detail }: PaletteProps) 
             <boxGeometry args={[0.12, 0.05, 0.18]} />
             {mat(detail, plate)}
           </mesh>
+          <StudRing y={0.08} radius={0.06} count={8} size={0.01} color={trim} />
         </group>
       ))}
-      {/* cuisses */}
       {[-0.1, 0.1].map((x) => (
         <mesh key={x} position={[x, 0.22, 0]} castShadow>
-          <capsuleGeometry args={[0.06, 0.12, 8, 12]} />
+          <capsuleGeometry args={[0.06, 0.12, G.capsuleRadial, G.capsuleHeight]} />
           {mat(secondary, plate)}
         </mesh>
       ))}
-      {/* torso */}
       <mesh position={[0, 0.36, 0]} castShadow>
-        <capsuleGeometry args={[0.17, 0.28, 12, 20]} />
+        <capsuleGeometry args={[0.17, 0.28, G.capsuleRadial, G.capsuleHeight]} />
         {mat(body, plate)}
       </mesh>
       <mesh position={[0, 0.38, 0.12]} castShadow>
         <boxGeometry args={[0.14, 0.18, 0.04]} />
-        {mat(accent, { ...plate, emissive: accent, intensity: 0.12 })}
+        {mat(accent, { ...plate, emissive: accent, intensity: 0.15 })}
       </mesh>
-      {/* pauldrons */}
       {[-0.22, 0.22].map((x) => (
         <mesh key={x} position={[x, 0.48, 0]} castShadow>
-          <sphereGeometry args={[0.1, 16, 16]} />
+          <sphereGeometry args={[0.1, G.sphereMed, G.sphereMed]} />
           {mat(secondary, plate)}
         </mesh>
       ))}
-      {/* arms */}
       {[-0.24, 0.24].map((x) => (
         <group key={x}>
           <mesh position={[x, 0.36, 0.04]} rotation={[0.2, 0, x > 0 ? -0.3 : 0.3]} castShadow>
-            <capsuleGeometry args={[0.05, 0.16, 8, 12]} />
+            <capsuleGeometry args={[0.05, 0.16, G.capsuleRadial, G.capsuleHeight]} />
             {mat(body, plate)}
           </mesh>
           <mesh position={[x > 0 ? x + 0.06 : x - 0.06, 0.26, 0.08]} castShadow>
@@ -560,9 +534,8 @@ export function PaladinModel({ body, accent, secondary, detail }: PaletteProps) 
           </mesh>
         </group>
       ))}
-      {/* helmet */}
       <mesh position={[0, 0.58, 0.02]} castShadow>
-        <sphereGeometry args={[0.14, 22, 22]} />
+        <sphereGeometry args={[0.14, G.sphere, G.sphere]} />
         {mat(secondary, plate)}
       </mesh>
       <mesh position={[0, 0.58, 0.14]} castShadow>
@@ -570,50 +543,49 @@ export function PaladinModel({ body, accent, secondary, detail }: PaletteProps) 
         {mat(body, plate)}
       </mesh>
       <mesh position={[0, 0.72, 0.04]} castShadow>
-        <coneGeometry args={[0.04, 0.14, 4]} />
-        {mat(accent, { ...plate, emissive: accent, intensity: 0.2 })}
+        <coneGeometry args={[0.04, 0.14, G.cone]} />
+        {mat(trim, { ...plate, emissive: accent, intensity: 0.25 })}
       </mesh>
-      {/* visor slit */}
       <mesh position={[0, 0.58, 0.16]} castShadow>
         <boxGeometry args={[0.1, 0.025, 0.02]} />
-        {mat('#263238')}
+        {mat(cloth)}
       </mesh>
-      <Eyes y={0.58} z={0.14} spacing={0.04} size={0.015} iris="#b3e5fc" />
-      {/* cape */}
+      <Eyes y={0.58} z={0.14} spacing={0.04} size={0.015} iris={detail} />
       <mesh position={[0, 0.4, -0.14]} rotation={[0.15, 0, 0]} castShadow>
         <boxGeometry args={[0.32, 0.38, 0.03]} />
-        {mat('#b71c1c', { roughness: 0.7 })}
+        {mat(cloth, { roughness: 0.72 })}
       </mesh>
-      {/* shield */}
+      <mesh position={[0, 0.52, -0.15]} rotation={[0.15, 0, 0]} castShadow>
+        <boxGeometry args={[0.26, 0.12, 0.02]} />
+        {mat(trim, { emissive: accent, intensity: 0.12 })}
+      </mesh>
       <mesh position={[-0.22, 0.38, 0.1]} rotation={[0, 0.35, 0]} castShadow>
         <cylinderGeometry args={[0.14, 0.14, 0.04, 6]} />
         {mat(body, plate)}
       </mesh>
       <mesh position={[-0.2, 0.38, 0.13]} rotation={[0, 0.35, 0]} castShadow>
-        <cylinderGeometry args={[0.06, 0.06, 0.02, 6]} />
-        {mat(accent, { emissive: accent, intensity: 0.25 })}
+        <cylinderGeometry args={[0.06, 0.06, 0.02, G.cylinder]} />
+        {mat(accent, { emissive: accent, intensity: 0.3 })}
       </mesh>
-      {/* sword */}
       <mesh position={[0.22, 0.42, 0.08]} rotation={[0, 0, -0.25]} castShadow>
         <boxGeometry args={[0.04, 0.32, 0.06]} />
-        {mat('#cfd8dc', { metalness: 0.85, roughness: 0.2 })}
+        {mat(secondary, { metalness: 0.88, roughness: 0.18 })}
       </mesh>
       <mesh position={[0.24, 0.58, 0.1]} rotation={[0, 0, -0.25]} castShadow>
         <boxGeometry args={[0.06, 0.1, 0.04]} />
-        {mat(accent, plate)}
+        {mat(trim, plate)}
       </mesh>
       <mesh position={[0.22, 0.26, 0.08]} rotation={[0, 0, -0.25]} castShadow>
         <boxGeometry args={[0.025, 0.08, 0.025]} />
-        {mat('#5d4037')}
+        {mat(cloth)}
       </mesh>
-      {/* belt & tabard */}
       <mesh position={[0, 0.28, 0.1]} castShadow>
         <boxGeometry args={[0.24, 0.04, 0.02]} />
-        {mat('#4e342e')}
+        {mat(cloth)}
       </mesh>
       <mesh position={[0, 0.24, 0.11]} castShadow>
         <boxGeometry args={[0.12, 0.14, 0.02]} />
-        {mat(accent, { emissive: accent, intensity: 0.1 })}
+        {mat(accent, { emissive: accent, intensity: 0.12 })}
       </mesh>
     </group>
   )

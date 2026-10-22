@@ -39,7 +39,7 @@ export default function App() {
       <header className="hud">
         <div>
           <h1>Fantasy Chess 3D</h1>
-          <p className="subtitle">You play White vs AI Black — goblins, dragons, wizards &amp; more</p>
+          <p className="subtitle">You play White vs AI Black — battle on a tavern tabletop</p>
         </div>
         <div className="status">
           <span className="pill">{turnLabel}</span>
@@ -84,8 +84,8 @@ export default function App() {
           <li>Paladin — king</li>
         </ul>
         <p className="note">
-          Original 3D fantasy miniatures — no labels on the board. Dark army pieces are shaded
-          cooler for Black.
+          Original 3D fantasy miniatures — no labels on the board. White uses dawn palettes
+          (gold, silver, ruby); Black uses umbral palettes (void purple, basalt, ember).
         </p>
       </aside>
 
