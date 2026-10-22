@@ -19,11 +19,11 @@ If macOS blocks the game app: **Right-click → Open** on `Pokemon Chess 3D.app`
 1. Open [GitHub Releases](https://github.com/cpearce-arch/chessApp/releases).
 2. Open the **`latest-mac`** release and download the **`.zip`** (always built on Linux CI).
 3. Double-click the zip to extract **Pokemon Chess 3D.app**, then drag it to **Applications** (or run from the extracted folder).
-4. If a **`.dmg`** is also attached (optional macOS runner build), you can use that instead.
+4. A **`.dmg`** is not built in CI (GitHub macOS runners are unreliable). On a Mac with Node installed once: `npm install && npm run pack:mac`.
 
 ### If the GitHub workflow fails
 
-Older workflows used `macos-latest` runners, which can fail with *“job was not acquired”* or capacity errors. Pull the latest `main` and re-run **Release Mac app** — it now builds the Mac zip on **ubuntu-latest** first. You only need the `.zip` to play.
+Ignore errors mentioning **`build-macos-dmg`** on old runs — that job was removed. The only job should be **`build-mac-pack`** on **ubuntu-latest**. If you still see *Internal server error*, wait a few minutes and **Run workflow** again (GitHub-side glitch). Check the green job and download the **`.zip`** from [latest-mac](https://github.com/cpearce-arch/chessApp/releases/tag/latest-mac).
 
 ## Controls
 

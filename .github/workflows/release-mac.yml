@@ -81,38 +81,3 @@ jobs:
             exit 1
           fi
           gh release upload "$TAG" "${assets[@]}" --clobber
-
-  # Optional native DMG when macOS runners are available (does not block the zip release).
-  build-macos-dmg:
-    runs-on: macos-14
-    timeout-minutes: 45
-    needs: build-mac-pack
-    continue-on-error: true
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: npm
-
-      - name: Install and package DMG
-        env:
-          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
-        run: |
-          npm ci
-          npm run build
-          npx electron-builder --mac dmg --publish never
-
-      - name: Attach DMG to latest-mac (if built)
-        if: success()
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          shopt -s nullglob
-          dmgs=(release/*.dmg)
-          if ((${#dmgs[@]})); then
-            gh release upload latest-mac "${dmgs[@]}" --clobber
-          fi
