@@ -22,7 +22,7 @@ More detail: [docs/PLAY_ON_MAC.md](docs/PLAY_ON_MAC.md)
 ### Option 2: Download the Mac app
 
 1. [GitHub Releases → **latest-mac**](https://github.com/cpearce-arch/chessApp/releases/tag/latest-mac)
-2. Download the **`.dmg`** or **`.zip`**, install, and open **Pokemon Chess 3D**.
+2. Download the **`.zip`**, extract **Pokemon Chess 3D.app**, then **Right-click → Open** the first launch.
 
 > **Note:** The Mac **`.zip`** is built only on GitHub **Linux** runners (no macOS runners — they often fail with “job was not acquired”). Open [Release Mac app](https://github.com/cpearce-arch/chessApp/actions/workflows/release-mac.yml) → **Run workflow**, wait for the green **build-mac-pack** job, then use Option 1 or 2. For a `.dmg`, run `npm run pack:mac` on your Mac.
 
