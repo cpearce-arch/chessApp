@@ -8,6 +8,8 @@ import * as THREE from 'three'
 import '@react-three/fiber'
 import '@react-three/drei'
 import { Chess } from 'chess.js'
+import { useTexture } from '@react-three/drei'
+import { ALL_SPRITE_IDS } from '../pokemon/spriteIds'
 import { configureTextBuilder, preloadFont } from '../shims/troika-three-text'
 // Troika cannot parse woff2 in Electron/file:// — use woff (see troika font parser).
 import labelFontUrl from '@fontsource/inter/files/inter-latin-400-normal.woff?url'
@@ -29,7 +31,15 @@ export const LABEL_FONT_URL = labelFontUrl
 const FONT_PRELOAD_MS = 4000
 
 /** Best-effort font warmup; never blocks the UI indefinitely. */
+function preloadPokemonSprites() {
+  const base = import.meta.env.BASE_URL ?? './'
+  for (const id of ALL_SPRITE_IDS) {
+    useTexture.preload(`${base}pokemon/${id}.png`)
+  }
+}
+
 export function preloadRuntimeAssets(): Promise<void> {
+  preloadPokemonSprites()
   return new Promise((resolve) => {
     let settled = false
     const done = () => {

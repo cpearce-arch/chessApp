@@ -1,5 +1,6 @@
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
+import { Suspense } from 'react'
 import type { Square } from 'chess.js'
 import { ChessBoard3D } from './ChessBoard3D'
 
@@ -29,7 +30,9 @@ export function SceneRoot(props: Props) {
         shadow-mapSize={[2048, 2048]}
       />
       <pointLight intensity={0.35} position={[-4, 6, -3]} color="#7bdff2" />
-      <ChessBoard3D {...props} />
+      <Suspense fallback={null}>
+        <ChessBoard3D {...props} />
+      </Suspense>
       <OrbitControls
         enablePan
         minPolarAngle={0.2}

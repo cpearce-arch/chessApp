@@ -74,18 +74,18 @@ export default function App() {
       </main>
 
       <aside className="legend">
-        <h2>Recognise the party</h2>
+        <h2>Party</h2>
         <ul>
-          <li>Pichu — small yellow mouse (pawn)</li>
-          <li>Snorlax — big teal sleeper (rook)</li>
-          <li>Rapidash — pony + flame tail (knight)</li>
-          <li>Alakazam — mustache & spoons (bishop)</li>
-          <li>Mewtwo — gray alien (queen)</li>
-          <li>Arceus — gold ring & horn (king)</li>
+          <li>Pichu (pawn)</li>
+          <li>Snorlax (rook)</li>
+          <li>Rapidash (knight)</li>
+          <li>Alakazam (bishop)</li>
+          <li>Mewtwo (queen)</li>
+          <li>Arceus (king)</li>
         </ul>
         <p className="note">
-          No labels on pieces — shapes and colours tell the role. AI difficulty changes search depth
-          and randomness (Easy is weaker).
+          Pieces use bundled Pokémon HOME-style art for maximum likeness. You play White vs AI
+          Black — adjust difficulty in the header.
         </p>
       </aside>
 
