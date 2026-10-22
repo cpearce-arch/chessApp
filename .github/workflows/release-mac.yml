@@ -1,7 +1,7 @@
 name: Release Mac app
 
-# macOS GitHub-hosted runners often queue or fail with capacity errors.
-# We build the Mac .app/.zip on Linux (electron-builder cross-packaging — verified in CI).
+# Player build: static dist + browser launcher (no unsigned Electron .app → fewer Gatekeeper issues).
+# Optional Electron zip removed from CI; developers can run npm run pack:mac locally.
 
 on:
   push:
@@ -19,7 +19,7 @@ concurrency:
 jobs:
   build-mac-pack:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,34 +30,38 @@ jobs:
           node-version: '22'
           cache: npm
 
-      - name: Install and test
+      - name: Install, test, and build web app
         run: |
           npm ci
           npm run test
           npm run build
 
-      - name: Package Mac app (zip, unsigned)
-        env:
-          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
-        run: npx electron-builder --mac zip --publish never
-
-      - name: List release output
-        run: ls -la release release/mac || true
+      - name: Package browser player zip (no Electron .app)
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          STAGING="release/staging-player"
+          OUT="release/Pokemon-Chess-3D-${VERSION}-browser-mac.zip"
+          rm -rf "$STAGING" "$OUT"
+          mkdir -p "$STAGING/scripts"
+          cp -R dist "$STAGING/dist"
+          cp "Play Pokemon Chess 3D.command" "$STAGING/"
+          cp scripts/serve-browser.sh "$STAGING/scripts/"
+          chmod +x "$STAGING/Play Pokemon Chess 3D.command" "$STAGING/scripts/serve-browser.sh"
+          (cd "$STAGING" && zip -r "../Pokemon-Chess-3D-${VERSION}-browser-mac.zip" .)
+          ls -la release
 
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
           name: pokemon-chess-3d-mac
-          path: |
-            release/*.zip
-            release/mac/**
+          path: release/*browser-mac.zip
           if-no-files-found: error
 
       - name: Publish GitHub Release (tag)
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          files: release/*.zip
+          files: release/*browser-mac.zip
           generate_release_notes: true
 
       - name: Publish rolling latest-mac release
@@ -68,16 +72,16 @@ jobs:
           set -euo pipefail
           TAG=latest-mac
           VERSION=$(node -p "require('./package.json').version")
-          NOTES="Mac build v${VERSION} (unsigned). Download the .zip, unzip, and open **Pokemon Chess 3D.app**. No Node/npm required."
+          NOTES="Mac player v${VERSION}: download **Pokemon-Chess-3D-${VERSION}-browser-mac.zip**, unzip, double-click **Play Pokemon Chess 3D.command**. Opens in your browser — no unsigned .app. First time: right-click the .command → Open if macOS asks."
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release edit "$TAG" --notes "$NOTES"
           else
-            gh release create "$TAG" --title "Mac app (latest build)" --notes "$NOTES"
+            gh release create "$TAG" --title "Mac player (browser)" --notes "$NOTES"
           fi
           shopt -s nullglob
-          assets=(release/*.zip)
+          assets=(release/*browser-mac.zip)
           if ((${#assets[@]} == 0)); then
-            echo "No zip artifacts found under release/" >&2
+            echo "No browser zip found under release/" >&2
             exit 1
           fi
           gh release upload "$TAG" "${assets[@]}" --clobber

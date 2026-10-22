@@ -6,25 +6,13 @@ Local **3D chess** with stylized **Pokémon-themed** pieces (original low-poly m
 
 ## Play on Mac — **no Node or npm**
 
-You do **not** need to install Node, Homebrew, or run `npm`.
+The player build opens in **your browser** via a local server (no unsigned Electron `.app`).
 
-### Option 1: Double-click (in this repo)
+1. [Download **`*-browser-mac.zip`**](https://github.com/cpearce-arch/chessApp/releases/tag/latest-mac) from **latest-mac** (or run the [Release Mac app](https://github.com/cpearce-arch/chessApp/actions/workflows/release-mac.yml) workflow once).
+2. Unzip and double-click **`Play Pokemon Chess 3D.command`**.
+3. If macOS warns about the script: **Right-click → Open → Open** (once).
 
-1. Open the project folder in **Finder**.
-2. Double-click **`Run Pokemon Chess 3D.command`**.
-3. First launch only: click **Download** (~150MB, uses built-in macOS tools).
-4. The game opens from **`apps/mac/Pokemon Chess 3D.app`** on every later launch.
-
-If macOS says it **could not verify** the app or shows **unidentified developer**: the build is **unsigned** (normal for CI). **Right-click `Pokemon Chess 3D.app` → Open → Open** the first time only. Details: [docs/MAC_GATEKEEPER.md](docs/MAC_GATEKEEPER.md).
-
-More detail: [docs/PLAY_ON_MAC.md](docs/PLAY_ON_MAC.md)
-
-### Option 2: Download the Mac app
-
-1. [GitHub Releases → **latest-mac**](https://github.com/cpearce-arch/chessApp/releases/tag/latest-mac)
-2. Download the **`.zip`**, extract **Pokemon Chess 3D.app**, then **Right-click → Open** the first launch.
-
-> **Note:** The Mac **`.zip`** is built only on GitHub **Linux** runners (no macOS runners — they often fail with “job was not acquired”). Open [Release Mac app](https://github.com/cpearce-arch/chessApp/actions/workflows/release-mac.yml) → **Run workflow**, wait for the green **build-mac-pack** job, then use Option 1 or 2. For a `.dmg`, run `npm run pack:mac` on your Mac.
+More detail: [docs/PLAY_ON_MAC.md](docs/PLAY_ON_MAC.md) · Gatekeeper: [docs/MAC_GATEKEEPER.md](docs/MAC_GATEKEEPER.md)
 
 ---
 

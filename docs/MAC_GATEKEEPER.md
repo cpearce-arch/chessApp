@@ -1,5 +1,15 @@
 # “Apple could not verify…” on Mac
 
+## Recommended: browser player (no `.app`)
+
+Current releases use **`Play Pokemon Chess 3D.command`**, which starts **Python’s built-in web server** and opens **Safari/Chrome**. The game is not a separate `.app`, so you usually **won’t** see the “Pokemon Chess 3D.app” malware dialog.
+
+You may still need **Right-click → Open** once on the **`.command`** file if macOS quarantined the downloaded zip.
+
+---
+
+## If you use the legacy Electron `.app`
+
 macOS **Gatekeeper** shows this when an app is **not signed and notarized** with an Apple Developer ID. That is **normal** for:
 
 - Apps built in GitHub Actions without signing secrets

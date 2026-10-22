@@ -1,31 +1,26 @@
 # Play on Mac (no Node, no npm)
 
-The game ships as a normal **Mac application**. You do **not** need Homebrew, Node, or npm to play.
+The game runs in **your default browser** from a tiny local server (Python, built into macOS). There is **no unsigned `.app`** in the normal player build, so you avoid most Gatekeeper “malware verify” dialogs.
 
-## Easiest: double-click launcher (included in this repo)
+## Easiest: double-click launcher
 
-1. Clone or download this repository.
-2. In Finder, open the project folder.
-3. **Double-click** `Run Pokemon Chess 3D.command`.
-4. The first time only, click **Download** when asked. The script uses **curl** and **python3** (built into macOS) to fetch the prebuilt app from GitHub Releases.
-5. Later launches open instantly from `apps/mac/Pokemon Chess 3D.app`.
+1. Download **`Pokemon-Chess-3D-*-browser-mac.zip`** from [latest-mac](https://github.com/cpearce-arch/chessApp/releases/tag/latest-mac) and unzip, **or** clone this repo and run the workflow once.
+2. Double-click **`Play Pokemon Chess 3D.command`** (or **`Run Pokemon Chess 3D.command`** — same thing).
+3. Safari/Chrome opens to `http://127.0.0.1:8765/` with the 3D board.
 
-If macOS blocks the launcher: **Right-click → Open** on `Run Pokemon Chess 3D.command`, or allow it under **System Settings → Privacy & Security**.
+First time only, if macOS blocks the **`.command` script**: **Right-click → Open → Open**. You are approving the launcher script, not a separate `.app`.
 
-If macOS blocks the game app: **Right-click → Open** on `Pokemon Chess 3D.app`.
+From a clone with no build yet: the launcher can **Download** the zip via curl/python3 (~4MB).
 
-### “Apple could not verify… malware”
+## Alternative: from GitHub Releases
 
-That message is **Gatekeeper** for **unsigned** apps (expected for our GitHub-built zip). Apple has not checked the publisher; it is not a specific virus detection.
+1. [Releases → latest-mac](https://github.com/cpearce-arch/chessApp/releases/tag/latest-mac)
+2. Download **`*-browser-mac.zip`**
+3. Unzip → double-click **`Play Pokemon Chess 3D.command`**
 
-**Do not double-click the first time.** Use **Right-click → Open → Open**, or see [MAC_GATEKEEPER.md](MAC_GATEKEEPER.md).
+### Legacy Electron `.app`
 
-## Alternative: download the installer
-
-1. Open [GitHub Releases](https://github.com/cpearce-arch/chessApp/releases).
-2. Open the **`latest-mac`** release and download the **`.zip`** (always built on Linux CI).
-3. Double-click the zip to extract **Pokemon Chess 3D.app**, then drag it to **Applications** (or run from the extracted folder).
-4. A **`.dmg`** is not built in CI (GitHub macOS runners are unreliable). On a Mac with Node installed once: `npm install && npm run pack:mac`.
+Older releases shipped an unsigned **Pokemon Chess 3D.app** (Gatekeeper warnings). Prefer the **browser** zip. Developers can still run `npm run pack:mac` locally.
 
 ### If the GitHub workflow fails
 
