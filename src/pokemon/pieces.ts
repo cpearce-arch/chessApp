@@ -9,53 +9,71 @@ export type PokemonRole =
 export interface PokemonPieceMeta {
   name: string
   role: PokemonRole
-  accent: string
+  /** Main fur / skin */
   body: string
+  /** Mane, belly, psychic glow, etc. */
+  accent: string
+  /** Second tone (belly, face, tail) */
+  secondary: string
+  /** Small details (ear tips, eyes, wheel) */
+  detail: string
   tagline: string
 }
 
-/** Stylized Pokémon stand-ins per chess role (original 3D shapes, not official assets). */
+/** Stylized Pokémon silhouettes (original 3D geometry, not official assets). */
 export const POKEMON_BY_ROLE: Record<PokemonRole, PokemonPieceMeta> = {
   pawn: {
     name: 'Pichu',
     role: 'pawn',
-    accent: '#f7d046',
-    body: '#ffe566',
+    body: '#ffd54f',
+    accent: '#ff8fab',
+    secondary: '#fff176',
+    detail: '#2d2d2d',
     tagline: 'Tiny spark on the front line',
   },
   rook: {
     name: 'Snorlax',
     role: 'rook',
-    accent: '#2ecc71',
-    body: '#1e8449',
+    body: '#1e6b5c',
+    accent: '#145246',
+    secondary: '#f5ead6',
+    detail: '#0d3d34',
     tagline: 'Immovable wall',
   },
   knight: {
     name: 'Rapidash',
     role: 'knight',
-    accent: '#ff6b35',
-    body: '#f4a261',
+    body: '#fce4c4',
+    accent: '#ff5722',
+    secondary: '#fff3e0',
+    detail: '#5d4037',
     tagline: 'Leaps in an L',
   },
   bishop: {
     name: 'Alakazam',
     role: 'bishop',
-    accent: '#9b59b6',
-    body: '#6c3483',
+    body: '#ffc107',
+    accent: '#6a1b9a',
+    secondary: '#ffecb3',
+    detail: '#4a148c',
     tagline: 'Diagonal mind',
   },
   queen: {
     name: 'Mewtwo',
     role: 'queen',
-    accent: '#bdc3c7',
-    body: '#7f8c8d',
+    body: '#b0bec5',
+    accent: '#9575cd',
+    secondary: '#eceff1',
+    detail: '#37474f',
     tagline: 'Psychic commander',
   },
   king: {
     name: 'Arceus',
     role: 'king',
-    accent: '#ecf0f1',
-    body: '#d4ac0d',
+    body: '#fffde7',
+    accent: '#ffc107',
+    secondary: '#fafafa',
+    detail: '#ffb300',
     tagline: 'Protect at all costs',
   },
 }
@@ -81,8 +99,10 @@ export function metaForFenPiece(fenChar: string): PokemonPieceMeta {
   if (isWhite) return base
   return {
     ...base,
-    body: shadeColor(base.body, -0.35),
-    accent: shadeColor(base.accent, -0.25),
+    body: shadeColor(base.body, -0.28),
+    accent: shadeColor(base.accent, -0.2),
+    secondary: shadeColor(base.secondary, -0.25),
+    detail: shadeColor(base.detail, -0.15),
   }
 }
 
