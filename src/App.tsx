@@ -84,8 +84,8 @@ export default function App() {
           <li>Paladin — king</li>
         </ul>
         <p className="note">
-          Original 3D fantasy miniatures — no labels on the board. White uses dawn palettes
-          (gold, silver, ruby); Black uses umbral palettes (void purple, basalt, ember).
+          Grimdark cathedral set — PBR miniatures, stained glass, and hell-braziers. White dawn
+          vs Black umbral palettes.
         </p>
       </aside>
 

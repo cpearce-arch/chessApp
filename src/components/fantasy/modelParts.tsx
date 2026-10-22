@@ -1,10 +1,13 @@
 import type { ReactNode } from 'react'
+import { ghostSheet, mat, pbr } from './pbrMaterials'
+
+export { ghostSheet, mat, pbr }
 
 /** Subdivision budget — tuned for ~32 hero meshes on board with headroom. */
 export const G = {
-  sphere: 56,
-  sphereMed: 40,
-  sphereLo: 28,
+  sphere: 64,
+  sphereMed: 48,
+  sphereLo: 32,
   cylinder: 36,
   capsuleRadial: 20,
   capsuleHeight: 40,
@@ -14,44 +17,6 @@ export const G = {
   ring: 72,
   icosa: 2,
 } as const
-
-export function mat(
-  color: string,
-  opts?: {
-    emissive?: string
-    intensity?: number
-    metalness?: number
-    roughness?: number
-    transparent?: boolean
-    opacity?: number
-  },
-) {
-  return (
-    <meshStandardMaterial
-      color={color}
-      roughness={opts?.roughness ?? 0.48}
-      metalness={opts?.metalness ?? 0.06}
-      emissive={opts?.emissive ?? '#000000'}
-      emissiveIntensity={opts?.intensity ?? 0}
-      transparent={opts?.transparent}
-      opacity={opts?.opacity ?? 1}
-    />
-  )
-}
-
-export function ghostSheet(body: string, accent: string, opacity = 0.78) {
-  return (
-    <meshStandardMaterial
-      color={body}
-      transparent
-      opacity={opacity}
-      roughness={0.32}
-      metalness={0.02}
-      emissive={accent}
-      emissiveIntensity={0.16}
-    />
-  )
-}
 
 export function Eyes({
   y,
@@ -137,7 +102,7 @@ export function ScaleSpine({
       {points.map((p, i) => (
         <mesh key={i} position={p} rotation={[0.4, i * 0.7, 0]} castShadow>
           <coneGeometry args={[scaleSize, scaleSize * 1.6, G.cone]} />
-          {mat(color, { metalness: 0.15, roughness: 0.4 })}
+          {mat(color, { kind: 'organic', metalness: 0.15, roughness: 0.4, clearcoat: 0.65 })}
         </mesh>
       ))}
     </>
