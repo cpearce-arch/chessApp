@@ -29,13 +29,13 @@ export function ChessBoard3D({ board, selected, legalTargets, onSquareClick }: P
   }, [])
 
   const pieces = useMemo(() => {
-    const list: { square: Square; fenChar: string }[] = []
+    const list: { square: Square; fenChar: string; color: 'w' | 'b' }[] = []
     for (const row of board) {
       for (const cell of row) {
         if (!cell) continue
         const fenChar =
           cell.color === 'w' ? cell.type.toUpperCase() : cell.type.toLowerCase()
-        list.push({ square: cell.square, fenChar })
+        list.push({ square: cell.square, fenChar, color: cell.color })
       }
     }
     return list
@@ -73,11 +73,15 @@ export function ChessBoard3D({ board, selected, legalTargets, onSquareClick }: P
         )
       })}
 
-      {pieces.map(({ square, fenChar }) => {
+      {pieces.map(({ square, fenChar, color }) => {
         const [x, , z] = squareToWorld(square)
         return (
-          <group key={`${square}-${fenChar}`} position={[x, 0.08, z]}>
-            <PokemonPiece fenChar={fenChar} selected={selected === square} />
+          <group key={`${square}-${fenChar}`} position={[x, 0.06, z]}>
+            <PokemonPiece
+              fenChar={fenChar}
+              color={color}
+              selected={selected === square}
+            />
           </group>
         )
       })}
