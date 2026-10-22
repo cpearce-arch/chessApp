@@ -1,3 +1,4 @@
+/** Unit tests for the chess.js wrapper (legal moves, turn order). */
 import { describe, expect, it } from 'vitest'
 import { ChessGame } from './chessGame'
 

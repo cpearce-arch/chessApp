@@ -1,3 +1,10 @@
+/**
+ * Black player AI: minimax search with alpha–beta pruning.
+ *
+ * "Minimax" means Black tries to minimize White's advantage (scores are from White's view).
+ * "Alpha–beta" skips branches that cannot beat the best line already found — faster, same result.
+ * Depth is shallow (1–3 plies) so moves feel instant in the browser.
+ */
 import { Chess, type Square } from 'chess.js'
 
 export type AiDifficulty = 'easy' | 'medium' | 'hard'
@@ -8,6 +15,7 @@ export type AiMove = {
   promotion?: 'q' | 'r' | 'b' | 'n'
 }
 
+/** Material values for position scoring (centipawn-style scale). */
 const PIECE_VALUE: Record<string, number> = {
   p: 100,
   n: 320,
@@ -17,12 +25,14 @@ const PIECE_VALUE: Record<string, number> = {
   k: 0,
 }
 
+/** How many half-moves (plies) to look ahead per difficulty. */
 const DEPTH: Record<AiDifficulty, number> = {
   easy: 1,
   medium: 2,
   hard: 3,
 }
 
+/** Small bonus for occupying central squares. */
 const CENTER_BONUS: Partial<Record<Square, number>> = {
   d4: 12,
   e4: 12,
@@ -34,6 +44,7 @@ const CENTER_BONUS: Partial<Record<Square, number>> = {
   f6: 4,
 }
 
+/** Positive score favors White; negative favors Black. */
 function evaluate(chess: Chess): number {
   if (chess.isCheckmate()) {
     return chess.turn() === 'w' ? -100_000 : 100_000
@@ -57,6 +68,7 @@ function evaluate(chess: Chess): number {
   return score
 }
 
+/** Try captures first so search cuts off bad lines sooner. */
 function orderedMoves(chess: Chess) {
   return chess.moves({ verbose: true }).sort((a, b) => {
     const capA = a.captured ? PIECE_VALUE[a.captured] ?? 0 : 0
@@ -102,6 +114,7 @@ function toAiMove(m: { from: string; to: string; promotion?: string }): AiMove {
   }
 }
 
+/** Pick Black's move from a FEN string. Returns null if not Black's turn or game over. */
 export function chooseAIMove(fen: string, difficulty: AiDifficulty): AiMove | null {
   const chess = new Chess(fen)
   if (chess.isGameOver() || chess.turn() !== 'b') return null

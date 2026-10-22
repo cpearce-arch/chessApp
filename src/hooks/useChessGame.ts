@@ -1,3 +1,9 @@
+/**
+ * React hook: connects UI clicks to ChessGame and schedules AI replies.
+ *
+ * Uses a `tick` counter to re-read the engine after moves (ChessGame is mutable, not React state).
+ * vsAi=true: human is always White; Black moves after a short delay via chooseAIMove.
+ */
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { Square } from 'chess.js'
 import { ChessGame } from '../lib/chessGame'
@@ -91,6 +97,7 @@ export function useChessGame(vsAi = true, aiDifficulty: AiDifficulty = 'medium')
     ],
   )
 
+  // When it becomes Black's turn, run the AI after a human-readable pause.
   useEffect(() => {
     if (!vsAi || snapshot.isGameOver || snapshot.turn !== 'b' || pendingPromotion) {
       setAiThinking(false)

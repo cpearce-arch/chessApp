@@ -1,3 +1,8 @@
+/**
+ * Application entry point.
+ * Mounts the React UI immediately, then runs optional asset preload (currently a no-op).
+ * Electron relies on fast first paint so the window is never blank while loading.
+ */
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { preloadRuntimeAssets } from './setup/runtimeDependencies'
@@ -12,7 +17,6 @@ if (!rootEl) {
 
 const root = createRoot(rootEl)
 
-// Mount UI immediately so Electron never shows a blank window if font preload stalls.
 root.render(
   <StrictMode>
     <App />

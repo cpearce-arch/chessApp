@@ -1,3 +1,8 @@
+/**
+ * Physically based materials (meshPhysicalMaterial): stone, metal, leather, glass, etc.
+ * Uses procedural roughness/bump maps so surfaces look worn without image files.
+ * mat() is the default entry point for creature meshes (usually "organic" kind).
+ */
 import { leatherBumpMap, metalRoughnessMap, organicBumpMap, stoneRoughnessMap } from './proceduralTextures'
 
 export type PbrOpts = {

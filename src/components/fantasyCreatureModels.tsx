@@ -1,3 +1,8 @@
+/**
+ * Procedural 3D miniatures built from Three.js primitives (spheres, boxes, capsules).
+ * Each export is one chess role. All models face +Z; FantasyPiece rotates Black by π on Y.
+ * Colors come from PaletteProps (see fantasy/pieces.ts).
+ */
 import {
   Eyes,
   G,
@@ -8,8 +13,7 @@ import {
   type PaletteProps,
 } from './fantasy/modelParts'
 
-/** Models face +Z; Black rotates 180° in FantasyPiece. */
-
+/** Goblin — pawn. Hunched figure with ears, dagger, and backpack. */
 export function GoblinModel({ body, accent, secondary, detail, cloth, trim }: PaletteProps) {
   return (
     <group scale={1.08}>
@@ -127,6 +131,7 @@ export function GoblinModel({ body, accent, secondary, detail, cloth, trim }: Pa
   )
 }
 
+/** Golem — rook. Blocky stone body, glowing runes, crystal shoulders. */
 export function GolemModel({ body, accent, secondary, detail, cloth, trim }: PaletteProps) {
   const runeGlow = { emissive: detail, intensity: 0.5 }
   return (
@@ -224,6 +229,7 @@ export function GolemModel({ body, accent, secondary, detail, cloth, trim }: Pal
   )
 }
 
+/** Ghost — knight. Translucent sheet, tendrils, chain links. */
 export function GhostModel({ body, accent, secondary, detail, cloth, trim }: PaletteProps) {
   const sheet = ghostSheet(body, accent)
   const inner = ghostSheet(secondary, accent, 0.62)
@@ -296,6 +302,7 @@ export function GhostModel({ body, accent, secondary, detail, cloth, trim }: Pal
   )
 }
 
+/** Wizard — bishop. Robes, hat, staff with glowing orb, floating runes. */
 export function WizardModel({ body, accent, secondary, detail, cloth, trim }: PaletteProps) {
   return (
     <group scale={1.06}>
@@ -379,6 +386,7 @@ export function WizardModel({ body, accent, secondary, detail, cloth, trim }: Pa
   )
 }
 
+/** Dragon — queen. Wings, horns, tail, chest gem, scale ridge along the back. */
 export function DragonModel({ body, accent, secondary, detail, cloth, trim }: PaletteProps) {
   const spine: [number, number, number][] = []
   for (let i = 0; i < 8; i++) {
@@ -485,6 +493,7 @@ export function DragonModel({ body, accent, secondary, detail, cloth, trim }: Pa
   )
 }
 
+/** Paladin — king. Plate armor, cape, shield, sword, tabard. */
 export function PaladinModel({ body, accent, secondary, detail, cloth, trim }: PaletteProps) {
   const plate = { metalness: 0.62, roughness: 0.28 }
   return (

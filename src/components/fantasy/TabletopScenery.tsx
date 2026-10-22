@@ -1,3 +1,7 @@
+/**
+ * Play area props: wooden table, felt mat, wall alcove, torches, candles, D&D-style clutter.
+ * Props are placed outside the 8×8 grid so they do not block square clicks.
+ */
 import { Float } from '@react-three/drei'
 import { mat } from './modelParts'
 

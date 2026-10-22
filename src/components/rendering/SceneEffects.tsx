@@ -1,3 +1,7 @@
+/**
+ * Full-screen post-processing after the 3D scene renders:
+ * bloom (glow on fire/runes), slight color tweak, vignette, soft depth of field.
+ */
 import { Bloom, DepthOfField, EffectComposer, HueSaturation, Vignette } from '@react-three/postprocessing'
 import { BlendFunction } from 'postprocessing'
 

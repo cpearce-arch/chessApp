@@ -1,3 +1,7 @@
+/**
+ * Large-scale set dressing: cathedral, columns, stained glass lights, braziers, floor mosaic.
+ * Composes TabletopScenery (table + props) inside a wider grimdark hall. Non-interactive decor.
+ */
 import { Float, Sparkles } from '@react-three/drei'
 import { useMemo } from 'react'
 import { emberFlame, pbr, stainedGlass } from './pbrMaterials'
