@@ -32,7 +32,7 @@ do
   PORT=$((PORT + 1))
 done
 
-echo "Serving Pokémon Chess 3D from $DIST"
+echo "Serving Fantasy Chess 3D from $DIST"
 echo "Open http://127.0.0.1:${PORT}/ in your browser (should open automatically)."
 
 python3 -m http.server "$PORT" --bind 127.0.0.1 --directory "$DIST" &

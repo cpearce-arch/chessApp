@@ -12,7 +12,7 @@ if has_dist; then
   exec "$ROOT/scripts/serve-browser.sh"
 fi
 
-CHOICE=$(osascript -e 'display dialog "Download the game files once (~4MB web build)? Needs internet." buttons {"Cancel", "Download"} default button "Download" with title "Pokémon Chess 3D"' -e 'button returned of result' 2>/dev/null || echo "Cancel")
+CHOICE=$(osascript -e 'display dialog "Download the game files once (~4MB web build)? Needs internet." buttons {"Cancel", "Download"} default button "Download" with title "Fantasy Chess 3D"' -e 'button returned of result' 2>/dev/null || echo "Cancel")
 
 if [[ "$CHOICE" != "Download" ]]; then
   exit 0

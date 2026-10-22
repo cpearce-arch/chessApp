@@ -40,20 +40,20 @@ jobs:
         run: |
           VERSION=$(node -p "require('./package.json').version")
           STAGING="release/staging-player"
-          OUT="release/Pokemon-Chess-3D-${VERSION}-browser-mac.zip"
+          OUT="release/Fantasy-Chess-3D-${VERSION}-browser-mac.zip"
           rm -rf "$STAGING" "$OUT"
           mkdir -p "$STAGING/scripts"
           cp -R dist "$STAGING/dist"
-          cp "Play Pokemon Chess 3D.command" "$STAGING/"
+          cp "Play Fantasy Chess 3D.command" "$STAGING/"
           cp scripts/serve-browser.sh "$STAGING/scripts/"
-          chmod +x "$STAGING/Play Pokemon Chess 3D.command" "$STAGING/scripts/serve-browser.sh"
-          (cd "$STAGING" && zip -r "../Pokemon-Chess-3D-${VERSION}-browser-mac.zip" .)
+          chmod +x "$STAGING/Play Fantasy Chess 3D.command" "$STAGING/scripts/serve-browser.sh"
+          (cd "$STAGING" && zip -r "../Fantasy-Chess-3D-${VERSION}-browser-mac.zip" .)
           ls -la release
 
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
-          name: pokemon-chess-3d-mac
+          name: fantasy-chess-3d-mac
           path: release/*browser-mac.zip
           if-no-files-found: error
 
@@ -72,7 +72,7 @@ jobs:
           set -euo pipefail
           TAG=latest-mac
           VERSION=$(node -p "require('./package.json').version")
-          NOTES="Mac player v${VERSION}: download **Pokemon-Chess-3D-${VERSION}-browser-mac.zip**, unzip, double-click **Play Pokemon Chess 3D.command**. Opens in your browser — no unsigned .app. First time: right-click the .command → Open if macOS asks."
+          NOTES="Mac player v${VERSION}: download **Fantasy-Chess-3D-${VERSION}-browser-mac.zip**, unzip, double-click **Play Fantasy Chess 3D.command**. Opens in your browser — no unsigned .app. First time: right-click the .command → Open if macOS asks."
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release edit "$TAG" --notes "$NOTES"
           else

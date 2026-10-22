@@ -5,10 +5,10 @@ import type { AiDifficulty } from './lib/chessAI'
 import './App.css'
 
 const PROMO_LABELS = {
-  q: 'Mewtwo (Queen)',
-  r: 'Snorlax (Rook)',
-  b: 'Alakazam (Bishop)',
-  n: 'Rapidash (Knight)',
+  q: 'Dragon (Queen)',
+  r: 'Golem (Rook)',
+  b: 'Wizard (Bishop)',
+  n: 'Ghost (Knight)',
 } as const
 
 export default function App() {
@@ -38,8 +38,8 @@ export default function App() {
     <div className="app">
       <header className="hud">
         <div>
-          <h1>Pokémon Chess 3D</h1>
-          <p className="subtitle">You play White vs AI Black — orbit board, click to move</p>
+          <h1>Fantasy Chess 3D</h1>
+          <p className="subtitle">You play White vs AI Black — goblins, dragons, wizards &amp; more</p>
         </div>
         <div className="status">
           <span className="pill">{turnLabel}</span>
@@ -74,26 +74,26 @@ export default function App() {
       </main>
 
       <aside className="legend">
-        <h2>Party</h2>
+        <h2>Armies</h2>
         <ul>
-          <li>Pichu (pawn)</li>
-          <li>Snorlax (rook)</li>
-          <li>Rapidash (knight)</li>
-          <li>Alakazam (bishop)</li>
-          <li>Mewtwo (queen)</li>
-          <li>Arceus (king)</li>
+          <li>Goblin — pawn</li>
+          <li>Golem — rook</li>
+          <li>Ghost — knight</li>
+          <li>Wizard — bishop</li>
+          <li>Dragon — queen</li>
+          <li>Paladin — king</li>
         </ul>
         <p className="note">
-          Pieces use bundled Pokémon HOME-style art for maximum likeness. You play White vs AI
-          Black — adjust difficulty in the header.
+          Original 3D fantasy miniatures — no labels on the board. Dark army pieces are shaded
+          cooler for Black.
         </p>
       </aside>
 
       {pendingPromotion && (
         <div className="modal-backdrop" role="dialog" aria-modal="true" aria-label="Promote pawn">
           <div className="modal">
-            <h3>Evolve your Pichu</h3>
-            <p>Choose a promotion form:</p>
+            <h3>Promote your Goblin</h3>
+            <p>Choose a champion:</p>
             <div className="promo-grid">
               {(Object.keys(PROMO_LABELS) as (keyof typeof PROMO_LABELS)[]).map((key) => (
                 <button key={key} type="button" onClick={() => promote(key)}>

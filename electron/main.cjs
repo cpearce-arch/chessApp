@@ -14,7 +14,7 @@ function createWindow() {
     height: 840,
     minWidth: 960,
     minHeight: 640,
-    title: 'Pokémon Chess 3D',
+    title: 'Fantasy Chess 3D',
     backgroundColor: '#0f1419',
     webPreferences: {
       contextIsolation: true,
