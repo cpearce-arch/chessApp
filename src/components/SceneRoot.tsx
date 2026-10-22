@@ -22,14 +22,17 @@ export function SceneRoot(props: Props) {
     <Canvas shadows dpr={[1, 2]} style={{ width: '100%', height: '100%' }}>
       <color attach="background" args={['#0f1419']} />
       <PerspectiveCamera makeDefault position={[6, 7, 8]} fov={45} />
-      <ambientLight intensity={0.45} />
+      <ambientLight intensity={0.38} />
       <directionalLight
         castShadow
-        intensity={1.2}
+        intensity={1.35}
         position={[5, 10, 4]}
         shadow-mapSize={[2048, 2048]}
+        shadow-bias={-0.0004}
       />
-      <pointLight intensity={0.35} position={[-4, 6, -3]} color="#7bdff2" />
+      <directionalLight intensity={0.45} position={[-3, 4, -5]} color="#ffe0b2" />
+      <pointLight intensity={0.4} position={[-4, 6, -3]} color="#7bdff2" />
+      <hemisphereLight intensity={0.25} color="#e8eaf6" groundColor="#1a2634" />
       <Suspense fallback={null}>
         <ChessBoard3D {...props} />
       </Suspense>
