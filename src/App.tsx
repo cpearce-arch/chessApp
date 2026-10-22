@@ -28,7 +28,7 @@ export default function App() {
       <header className="hud">
         <div>
           <h1>Pokémon Chess 3D</h1>
-          <p className="subtitle">Local 3D board — drag to orbit, click squares to move</p>
+          <p className="subtitle">Web app — works in Chrome; drag to orbit, click squares to move</p>
         </div>
         <div className="status">
           <span className="pill">{snapshot.isGameOver ? snapshot.result : `${turnLabel} to move`}</span>

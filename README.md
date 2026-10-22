@@ -1,18 +1,21 @@
 # Pokémon Chess 3D
 
-Local **3D chess** with stylized **Pokémon-themed** pieces (original low-poly models, not official Nintendo assets).
+**3D chess** with stylized **Pokémon-themed** pieces (original low-poly models, not official Nintendo assets). Runs as a **web app in Chrome** — no Mac installer required.
 
 ---
 
-## Play on Mac — **no Node or npm**
+## Play in Chrome (easiest)
 
-The player build opens in **your browser** via a local server (no unsigned Electron `.app`).
+Open:
 
-1. [Download **`*-browser-mac.zip`**](https://github.com/cpearce-arch/chessApp/releases/tag/latest-mac) from **latest-mac** (or run the [Release Mac app](https://github.com/cpearce-arch/chessApp/actions/workflows/release-mac.yml) workflow once).
-2. Unzip and double-click **`Play Pokemon Chess 3D.command`**.
-3. If macOS warns about the script: **Right-click → Open → Open** (once).
+### **https://cpearce-arch.github.io/chessApp/**
 
-More detail: [docs/PLAY_ON_MAC.md](docs/PLAY_ON_MAC.md) · Gatekeeper: [docs/MAC_GATEKEEPER.md](docs/MAC_GATEKEEPER.md)
+- No download, no Gatekeeper, no Terminal  
+- Use **Chrome’s “Install app”** (⊕ in the address bar) for a window without browser tabs  
+
+If the link 404s, enable Pages once: **Repo Settings → Pages → Source: GitHub Actions**, then run [Deploy Chrome web app](https://github.com/cpearce-arch/chessApp/actions/workflows/deploy-pages.yml) or push to `main`.
+
+Details: [docs/PLAY_IN_CHROME.md](docs/PLAY_IN_CHROME.md)
 
 ---
 
@@ -40,30 +43,23 @@ Pawn promotion: choose an evolution when Pichu reaches the last rank.
 
 ---
 
-## Developers (change the source)
+## Developers
 
 Requires [Node.js](https://nodejs.org/) 20+ and npm.
 
 ```bash
 npm install
-npm run dev:app      # Electron + hot reload
-npm run dev          # browser at http://localhost:5173
+npm run dev          # Chrome → http://localhost:5173
+npm run build:web    # same as GitHub Pages build
 npm run test
-npm run build
-npm run pack:mac     # local .dmg / .zip in release/
+npm run dev:app      # optional unsigned Electron shell
 ```
 
-Runtime libraries are bundled into `dist/` (no CDN fonts at play time). `npm install` verifies all declared packages are present.
+### Workflows
 
-### Project layout
+| Workflow | Purpose |
+|----------|---------|
+| [deploy-pages.yml](.github/workflows/deploy-pages.yml) | Publish Chrome web app on every `main` push |
+| [release-mac.yml](.github/workflows/release-mac.yml) | Optional offline **browser-mac** zip |
 
-```
-Run Pokemon Chess 3D.command   ← players double-click this
-apps/mac/                      ← installed .app (after first launch)
-scripts/fetch-mac-app.sh       ← download helper (curl + python3)
-electron/                      ← desktop shell
-src/                           ← React + Three.js game
-.github/workflows/release-mac.yml
-```
-
-Pokémon names/trademarks belong to Nintendo/Creatures/Game Freak; this project uses original 3D shapes for local fan-style play.
+Pokémon names/trademarks belong to Nintendo/Creatures/Game Freak; this project uses original 3D shapes for fan-style play.

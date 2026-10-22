@@ -1,0 +1,17 @@
+{
+  "name": "Pokémon Chess 3D",
+  "short_name": "Pokémon Chess",
+  "description": "3D Pokémon-themed chess in your browser",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f1419",
+  "theme_color": "#0f1419",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

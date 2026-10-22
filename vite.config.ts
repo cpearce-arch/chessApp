@@ -2,9 +2,12 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
+/** Relative `./` for local zip; `/chessApp/` for GitHub Pages (see build:web). */
+const base = process.env.VITE_BASE_PATH ?? './'
+
 export default defineConfig({
   plugins: [react()],
-  base: './',
+  base,
   server: {
     port: 5173,
     strictPort: true,
