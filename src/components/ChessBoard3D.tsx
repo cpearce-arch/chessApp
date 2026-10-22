@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import type { Square } from 'chess.js'
 import { FantasyPiece } from './FantasyPiece'
+import { stoneRoughnessMap } from './fantasy/proceduralTextures'
 import { isLightSquare, squareFromGrid, squareToWorld } from '../board/coords'
 
 type BoardCell = {
@@ -47,10 +48,20 @@ export function ChessBoard3D({ board, selected, legalTargets, onSquareClick }: P
         const [x, , z] = squareToWorld(square)
         const isSelected = selected === square
         const isTarget = legalTargets.includes(square)
-        const base = light ? '#e8edf2' : '#3d5a80'
-        let color = base
-        if (isSelected) color = '#ffd166'
-        else if (isTarget) color = light ? '#95d5b2' : '#40916c'
+        const baseLight = light ? '#d5cfc4' : '#3a3632'
+        const baseDark = light ? '#8a8178' : '#1f1c19'
+        let color = light ? baseLight : baseDark
+        let emissive = '#000000'
+        let intensity = 0
+        if (isSelected) {
+          color = '#ffd166'
+          emissive = '#ffb300'
+          intensity = 0.25
+        } else if (isTarget) {
+          color = light ? '#a5d6a7' : '#2e7d32'
+          emissive = '#69f0ae'
+          intensity = 0.12
+        }
 
         return (
           <mesh
@@ -61,9 +72,20 @@ export function ChessBoard3D({ board, selected, legalTargets, onSquareClick }: P
               onSquareClick(square)
             }}
             receiveShadow
+            castShadow
           >
             <boxGeometry args={[0.96, 0.12, 0.96]} />
-            <meshStandardMaterial color={color} roughness={0.65} metalness={0.05} />
+            <meshPhysicalMaterial
+              color={color}
+              roughness={light ? 0.42 : 0.78}
+              metalness={light ? 0.12 : 0.04}
+              roughnessMap={stoneRoughnessMap()}
+              emissive={emissive}
+              emissiveIntensity={intensity}
+              clearcoat={light ? 0.35 : 0.08}
+              clearcoatRoughness={0.4}
+              envMapIntensity={1.05}
+            />
           </mesh>
         )
       })}

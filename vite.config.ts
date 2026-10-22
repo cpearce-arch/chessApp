@@ -21,6 +21,8 @@ export default defineConfig({
       '@react-three/fiber',
       '@react-three/drei',
       'chess.js',
+      '@react-three/postprocessing',
+      'postprocessing',
     ],
   },
   build: {
