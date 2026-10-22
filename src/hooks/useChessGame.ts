@@ -1,8 +1,9 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { Square } from 'chess.js'
 import { ChessGame } from '../lib/chessGame'
+import { chooseAIMove, type AiDifficulty } from '../lib/chessAI'
 
-export function useChessGame() {
+export function useChessGame(vsAi = true, aiDifficulty: AiDifficulty = 'medium') {
   const [engine] = useState(() => new ChessGame())
   const [tick, setTick] = useState(0)
   const [selected, setSelected] = useState<Square | null>(null)
@@ -10,6 +11,7 @@ export function useChessGame() {
     from: Square
     to: Square
   } | null>(null)
+  const [aiThinking, setAiThinking] = useState(false)
 
   const snapshot = useMemo(() => engine.snapshot(), [engine, tick])
   const board = useMemo(() => engine.board(), [engine, tick])
@@ -44,6 +46,8 @@ export function useChessGame() {
   const onSquareClick = useCallback(
     (square: Square) => {
       if (snapshot.isGameOver) return
+      if (vsAi && snapshot.turn === 'b') return
+      if (aiThinking) return
 
       const piece = board
         .flat()
@@ -75,8 +79,48 @@ export function useChessGame() {
 
       setSelected(null)
     },
-    [board, completeMove, legalTargets, selected, snapshot.isGameOver, snapshot.turn],
+    [
+      aiThinking,
+      board,
+      completeMove,
+      legalTargets,
+      selected,
+      snapshot.isGameOver,
+      snapshot.turn,
+      vsAi,
+    ],
   )
+
+  useEffect(() => {
+    if (!vsAi || snapshot.isGameOver || snapshot.turn !== 'b' || pendingPromotion) {
+      setAiThinking(false)
+      return
+    }
+
+    setAiThinking(true)
+    const delay = aiDifficulty === 'easy' ? 280 : aiDifficulty === 'medium' ? 450 : 650
+    const timer = window.setTimeout(() => {
+      const aiMove = chooseAIMove(snapshot.fen, aiDifficulty)
+      if (aiMove) {
+        completeMove(aiMove.from, aiMove.to, aiMove.promotion ?? 'q')
+      }
+      setAiThinking(false)
+    }, delay)
+
+    return () => {
+      window.clearTimeout(timer)
+      setAiThinking(false)
+    }
+  }, [
+    aiDifficulty,
+    completeMove,
+    pendingPromotion,
+    snapshot.fen,
+    snapshot.isGameOver,
+    snapshot.turn,
+    tick,
+    vsAi,
+  ])
 
   const promote = useCallback(
     (choice: 'q' | 'r' | 'b' | 'n') => {
@@ -95,5 +139,8 @@ export function useChessGame() {
     onSquareClick,
     promote,
     resetGame,
+    vsAi,
+    aiDifficulty,
+    aiThinking,
   }
 }

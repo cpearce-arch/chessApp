@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { useChessGame } from './hooks/useChessGame'
 import { SceneRoot } from './components/SceneRoot'
+import type { AiDifficulty } from './lib/chessAI'
 import './App.css'
 
 const PROMO_LABELS = {
@@ -10,6 +12,7 @@ const PROMO_LABELS = {
 } as const
 
 export default function App() {
+  const [aiDifficulty, setAiDifficulty] = useState<AiDifficulty>('medium')
   const {
     board,
     snapshot,
@@ -19,23 +22,43 @@ export default function App() {
     onSquareClick,
     promote,
     resetGame,
-  } = useChessGame()
+    aiThinking,
+  } = useChessGame(true, aiDifficulty)
 
-  const turnLabel = snapshot.turn === 'w' ? 'White' : 'Black'
+  const turnLabel =
+    snapshot.isGameOver
+      ? snapshot.result
+      : aiThinking
+        ? 'AI thinking…'
+        : snapshot.turn === 'w'
+          ? 'Your move (White)'
+          : 'AI move (Black)'
 
   return (
     <div className="app">
       <header className="hud">
         <div>
           <h1>Pokémon Chess 3D</h1>
-          <p className="subtitle">Web app — works in Chrome; drag to orbit, click squares to move</p>
+          <p className="subtitle">You play White vs AI Black — orbit board, click to move</p>
         </div>
         <div className="status">
-          <span className="pill">{snapshot.isGameOver ? snapshot.result : `${turnLabel} to move`}</span>
+          <span className="pill">{turnLabel}</span>
           {snapshot.inCheck && !snapshot.isGameOver && (
             <span className="pill warn">Check!</span>
           )}
-          <button type="button" onClick={resetGame}>
+          <label className="difficulty">
+            AI
+            <select
+              value={aiDifficulty}
+              onChange={(e) => setAiDifficulty(e.target.value as AiDifficulty)}
+              disabled={aiThinking}
+            >
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </label>
+          <button type="button" onClick={resetGame} disabled={aiThinking}>
             New game
           </button>
         </div>
@@ -51,18 +74,18 @@ export default function App() {
       </main>
 
       <aside className="legend">
-        <h2>Party roster</h2>
+        <h2>Recognise the party</h2>
         <ul>
-          <li>Pichu — Pawn</li>
-          <li>Snorlax — Rook</li>
-          <li>Rapidash — Knight</li>
-          <li>Alakazam — Bishop</li>
-          <li>Mewtwo — Queen</li>
-          <li>Arceus — King</li>
+          <li>Pichu — small yellow mouse (pawn)</li>
+          <li>Snorlax — big teal sleeper (rook)</li>
+          <li>Rapidash — pony + flame tail (knight)</li>
+          <li>Alakazam — mustache & spoons (bishop)</li>
+          <li>Mewtwo — gray alien (queen)</li>
+          <li>Arceus — gold ring & horn (king)</li>
         </ul>
         <p className="note">
-          Stylized 3D figures inspired by Pokémon roles. Run locally in the browser or the Mac
-          desktop shell via Electron.
+          No labels on pieces — shapes and colours tell the role. AI difficulty changes search depth
+          and randomness (Easy is weaker).
         </p>
       </aside>
 

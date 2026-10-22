@@ -54,6 +54,24 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.difficulty {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+}
+
+.difficulty select {
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: #1e293b;
+  color: #f8fafc;
+  padding: 0.35rem 0.5rem;
+  font-weight: 600;
 }
 
 .pill {

@@ -76,7 +76,7 @@ export function ChessBoard3D({ board, selected, legalTargets, onSquareClick }: P
       {pieces.map(({ square, fenChar }) => {
         const [x, , z] = squareToWorld(square)
         return (
-          <group key={`${square}-${fenChar}`} position={[x, 0.12, z]}>
+          <group key={`${square}-${fenChar}`} position={[x, 0.08, z]}>
             <PokemonPiece fenChar={fenChar} selected={selected === square} />
           </group>
         )
